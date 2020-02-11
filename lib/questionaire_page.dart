@@ -22,7 +22,7 @@ class QuestionairePage extends StatelessWidget {
                   ),
                 );
                 },
-                color: Colors.lightBlue,
+                color: Colors.blueAccent,
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Text(

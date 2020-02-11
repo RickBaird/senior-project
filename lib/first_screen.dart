@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:ruroomates/edit_profile.dart';
+import 'package:ruroomates/home.dart';
 import 'package:ruroomates/login_page.dart';
 import 'package:ruroomates/sign_in.dart';
 import 'package:ruroomates/questionaire_page.dart';
@@ -6,14 +8,19 @@ import 'package:ruroomates/questionaire_page.dart';
 class FirstScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return new Scaffold(
+      appBar: new AppBar(title: new Text("Profile"),
+      backgroundColor: Colors.blueAccent,
+      leading: new IconButton(icon: new Icon(Icons.arrow_back), onPressed: () {
+        Navigator.push(context, MaterialPageRoute(builder: (context)=> HomePage()));
+      }),),
       body: Container(
         decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topRight,
-            end: Alignment.bottomLeft,
-            colors: [Colors.blue[100], Colors.blue[400]],
-          ),
+          // gradient: LinearGradient(
+          //   begin: Alignment.topRight,
+          //   end: Alignment.bottomLeft,
+          //   colors: [Colors.white],
+          // ),
         ),
         child: Center(
           child: Column(
@@ -39,7 +46,7 @@ class FirstScreen extends StatelessWidget {
                 name,
                 style: TextStyle(
                     fontSize: 25,
-                    color: Colors.blue,
+                    color: Colors.black54,
                     fontWeight: FontWeight.bold),
               ),
               SizedBox(height: 20),
@@ -54,7 +61,7 @@ class FirstScreen extends StatelessWidget {
                 email,
                 style: TextStyle(
                     fontSize: 25,
-                    color: Colors.blue,
+                    color: Colors.black54,
                     fontWeight: FontWeight.bold),
               ),
               SizedBox(height: 40),
@@ -68,7 +75,7 @@ class FirstScreen extends StatelessWidget {
                   ),
                 );
                 },
-                color: Colors.lightBlue,
+                color: Colors.blueAccent,
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
@@ -83,14 +90,19 @@ class FirstScreen extends StatelessWidget {
               SizedBox(height: 40),
               RaisedButton(
                 onPressed: () {
-                  signOutGoogle();
-                  Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) {return LoginPage();}), ModalRoute.withName('/'));
+                  Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) {
+                      return EditProfile();
+                    },
+                  ),
+                );
                 },
-                color: Colors.lightBlue,
+                color: Colors.blueAccent,
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
-                    'Sign Out',
+                    'Edit Profile',
                     style: TextStyle(fontSize: 25, color: Colors.white),
                   ),
                 ),

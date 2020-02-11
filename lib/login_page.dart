@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ruroomates/home.dart';
 import 'package:ruroomates/sign_in.dart';
 import 'package:ruroomates/first_screen.dart';
 
@@ -36,7 +37,7 @@ class _LoginPageState extends State<LoginPage> {
       Navigator.of(context).push(
         MaterialPageRoute(
           builder: (context) {
-            return FirstScreen();
+            return HomePage();
           },
         ),
       );
