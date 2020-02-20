@@ -43,6 +43,18 @@ class AuthService {
     final FirebaseUser currentUser = await _auth.currentUser();
     assert(user.uid == currentUser.uid);
 
+    if (user != null) {
+    // Check is already sign up
+    final QuerySnapshot result =
+        await Firestore.instance.collection('users').where('id', isEqualTo: user.uid).getDocuments();
+    final List < DocumentSnapshot > documents = result.documents;
+    if (documents.length == 0) {
+        // Update data to server if new user
+        Firestore.instance.collection('users').document(user.uid).setData(
+            { 'nickname': user.displayName, 'photoUrl': user.photoUrl, 'id': user.uid });
+    }
+}
+
     return 'signInWithGoogle succeeded: $user';
     // updateUserData(user);
     // print("signed in " + user.displayName);

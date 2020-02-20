@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:ruroomates/first_screen.dart';
 import 'package:ruroomates/sign_in.dart';
 import 'package:ruroomates/login_page.dart';
+import 'package:ruroomates/messages.dart';
 
 
 class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    
     return MaterialApp(
       title: "Home",
       home: Scaffold(
@@ -39,6 +41,22 @@ class HomePage extends StatelessWidget {
                 onTap: () { 
                   Navigator.of(context).pop();
                   Navigator.of(context).push(new MaterialPageRoute(builder: (BuildContext context) => new FirstScreen()));
+                },
+              ),
+
+              new ListTile(
+                title: new Text("Messages"),
+                trailing: 
+                  CircleAvatar(
+                  backgroundImage: NetworkImage(
+                  imageUrl,
+                  ),
+                  radius: 12,
+                  backgroundColor: Colors.transparent,
+                ),
+                onTap: () { 
+                  Navigator.of(context).pop();
+                  Navigator.of(context).push(new MaterialPageRoute(builder: (BuildContext context) => new Messages(currentUserId: prefs.getString('id'))));
                 },
               ),
 
