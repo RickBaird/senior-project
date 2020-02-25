@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "726036954619",
+    "firebase_url": "https://ruroomates.firebaseio.com",
+    "project_id": "ruroomates",
+    "storage_bucket": "ruroomates.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:726036954619:android:09252f0ba8a163637e1f5e",
+        "android_client_info": {
+          "package_name": "com.example.ruroomates"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "726036954619-j4bmfacl2jamgh6cg2ob06kubgvhlqg0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.ruroomates",
+            "certificate_hash": "00851811e0cfbf394953ca3b5e9902ad536fc4f7"
+          }
+        },
+        {
+          "client_id": "726036954619-qgc7cvemundkrt3oas9kt2eaeeuimmcm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB2tNvMdGpajjfqP1yhCLawmYJr1q3K9jg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "726036954619-qgc7cvemundkrt3oas9kt2eaeeuimmcm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
