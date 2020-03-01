@@ -1,42 +1,3 @@
-// import 'package:flutter/material.dart';
-// import 'package:ruroomates/home.dart';
-// import 'package:cloud_firestore/cloud_firestore.dart';
-// import 'package:firebase_auth/firebase_auth.dart';
-// import 'package:google_sign_in/google_sign_in.dart';
-
-
-
-// class Messages extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       body: 
-// Container(
-//   child: StreamBuilder(
-//     stream: Firestore.instance.collection('users').snapshots(),
-//     builder: (context, snapshot) {
-//       if (!snapshot.hasData) {
-//         return Center(
-//           child: CircularProgressIndicator(
-// 			valueColor: AlwaysStoppedAnimation<Color>(Colors.blueAccent),
-//           ),
-//         );
-//       } else {
-//         return ListView.builder(
-//           padding: EdgeInsets.all(10.0),
-//           itemBuilder: (context, index) => buildItem(context, snapshot.data.documents[index]),
-//           itemCount: snapshot.data.documents.length,
-//         );
-//       }
-//     },
-//   ),
-// ),
-//     );
-//   }
-// }
-
-
-import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
@@ -48,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:ruroomates/Chat.dart';
 import 'package:ruroomates/const.dart';
 import 'package:ruroomates/home.dart';
+import 'package:ruroomates/searchusers.dart';
 import 'package:ruroomates/sign_in.dart';
 import 'package:ruroomates/login_page.dart';
 import 'package:ruroomates/auth.dart';
@@ -75,8 +37,7 @@ class MainScreenState extends State<Messages> {
 
   bool isLoading = false;
   List<Choice> choices = const <Choice>[
-    const Choice(title: 'Settings', icon: Icons.settings),
-    const Choice(title: 'Log out', icon: Icons.exit_to_app),
+    const Choice(title: 'Search Users', icon: Icons.search),
   ];
 
   @override
@@ -120,7 +81,8 @@ class MainScreenState extends State<Messages> {
     if (choice.title == 'Log out') {
       signOutGoogle();
     } else {
-      Navigator.push(context, MaterialPageRoute(builder: (context) => Settings()));
+      Navigator.push(context, MaterialPageRoute(builder: (context) => SearchUsers
+        ()));
     }
   }
 
@@ -136,7 +98,7 @@ class MainScreenState extends State<Messages> {
     );
     var iOSPlatformChannelSpecifics = new IOSNotificationDetails();
     var platformChannelSpecifics =
-        new NotificationDetails(androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
+    new NotificationDetails(androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
     await flutterLocalNotificationsPlugin.show(
         0, message['title'].toString(), message['body'].toString(), platformChannelSpecifics,
         payload: json.encode(message));
@@ -213,11 +175,11 @@ class MainScreenState extends State<Messages> {
             Positioned(
               child: isLoading
                   ? Container(
-                      child: Center(
-                        child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(themeColor)),
-                      ),
-                      color: Colors.white.withOpacity(0.8),
-                    )
+                child: Center(
+                  child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(themeColor)),
+                ),
+                color: Colors.white.withOpacity(0.8),
+              )
                   : Container(),
             )
           ],
@@ -238,25 +200,25 @@ class MainScreenState extends State<Messages> {
               Material(
                 child: document['photoUrl'] != null
                     ? CachedNetworkImage(
-                        placeholder: (context, url) => Container(
-                          child: CircularProgressIndicator(
-                            strokeWidth: 1.0,
-                            valueColor: AlwaysStoppedAnimation<Color>(themeColor),
-                          ),
-                          width: 50.0,
-                          height: 50.0,
-                          padding: EdgeInsets.all(15.0),
-                        ),
-                        imageUrl: document['photoUrl'],
-                        width: 50.0,
-                        height: 50.0,
-                        fit: BoxFit.cover,
-                      )
+                  placeholder: (context, url) => Container(
+                    child: CircularProgressIndicator(
+                      strokeWidth: 1.0,
+                      valueColor: AlwaysStoppedAnimation<Color>(themeColor),
+                    ),
+                    width: 50.0,
+                    height: 50.0,
+                    padding: EdgeInsets.all(15.0),
+                  ),
+                  imageUrl: document['photoUrl'],
+                  width: 50.0,
+                  height: 50.0,
+                  fit: BoxFit.cover,
+                )
                     : Icon(
-                        Icons.account_circle,
-                        size: 50.0,
-                        color: greyColor,
-                      ),
+                  Icons.account_circle,
+                  size: 50.0,
+                  color: greyColor,
+                ),
                 borderRadius: BorderRadius.all(Radius.circular(25.0)),
                 clipBehavior: Clip.hardEdge,
               ),
@@ -295,9 +257,9 @@ class MainScreenState extends State<Messages> {
                 context,
                 MaterialPageRoute(
                     builder: (context) => Chat(
-                          peerId: document.documentID,
-                          peerAvatar: document['photoUrl'],
-                        )));
+                      peerId: document.documentID,
+                      peerAvatar: document['photoUrl'],
+                    )));
           },
           color: greyColor2,
           padding: EdgeInsets.fromLTRB(25.0, 10.0, 25.0, 10.0),
@@ -315,4 +277,3 @@ class Choice {
   final String title;
   final IconData icon;
 }
-
