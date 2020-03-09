@@ -44,7 +44,7 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('Question'),
+          title: Text('Questionaire'),
         ),
         body: SingleChildScrollView(
           padding: EdgeInsets.all(8.0),
