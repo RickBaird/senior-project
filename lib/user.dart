@@ -65,11 +65,23 @@ class _OtherUserProfileState extends State<OtherUserProfile> {
   @override
   Widget build(BuildContext context) {
         return
-          Column(
+        SizedBox.expand(
+        child: Container(
+          decoration: BoxDecoration(
+              gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: <Color>[
+                    Colors.brown,
+                    Colors.yellow,
+                  ]
+              )
+          ),
+          child: Column(
             mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             Row(
-              mainAxisSize: MainAxisSize.min,
+              mainAxisSize: MainAxisSize.max,
               children: <Widget>[
                 Material(
                   child:  /* document['photoUrl'] != null ? */  CachedNetworkImage(
@@ -100,7 +112,7 @@ class _OtherUserProfileState extends State<OtherUserProfile> {
                           child: Text(
                             peerID,
                             //'${document['nickname']}',
-                            style: TextStyle(color: primaryColor),
+                            style: TextStyle(color: Colors.white),
                           ),
                         ),
                       ),
@@ -109,6 +121,8 @@ class _OtherUserProfileState extends State<OtherUserProfile> {
               ],
             )
           ],
+        ),
+        ),
         );
     }
 

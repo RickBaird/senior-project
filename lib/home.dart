@@ -59,7 +59,7 @@ class HomePage extends StatelessWidget {
                           backgroundImage: NetworkImage(imageUrl)
                       ),
                     ),),
-                  
+
                   new ListTile(
 
                     title: new Text("Profile"),
@@ -176,6 +176,7 @@ class HomePage extends StatelessWidget {
         )
     );
   }
+
 
 
   Widget buildItem(BuildContext context, DocumentSnapshot document) {
