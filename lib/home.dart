@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:ruroomates/first_screen.dart';
 import 'package:ruroomates/sign_in.dart';
@@ -10,6 +11,7 @@ import 'package:ruroomates/user.dart';
 import 'const.dart';
 
 
+// ignore: must_be_immutable
 class HomePage extends StatelessWidget {
 
   String currentUserId;
@@ -17,88 +19,120 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    
+
     return MaterialApp(
-      title: "Home",
-      home: Scaffold(
-        appBar: AppBar(
-        title: Text("Home Page"),
-        backgroundColor: Colors.blueAccent,
-        ),
-        drawer: new Drawer(
-          child: new ListView(
-            children: <Widget>[
-                
-              new UserAccountsDrawerHeader(accountName: Text(name), accountEmail: Text(email),
-              decoration: new BoxDecoration(color: Colors.blueAccent),
-              currentAccountPicture: new GestureDetector(
-                child: new CircleAvatar(
-                  backgroundImage: NetworkImage(imageUrl)
-                ),
-                ),),
-
-              new ListTile(
-                title: new Text("Profile"),
-                trailing: 
-                  CircleAvatar(
-                  backgroundImage: NetworkImage(
-                  imageUrl,
-                  ),
-                  radius: 12,
-                  backgroundColor: Colors.transparent,
-                ),
-                onTap: () { 
-                  Navigator.of(context).pop();
-                  Navigator.of(context).push(new MaterialPageRoute(builder: (BuildContext context) => new FirstScreen()));
-                },
+        title: "Home",
+        home: Scaffold(
+          appBar: AppBar(
+            title: Text("Home Page"),
+            flexibleSpace: Container(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: <Color>[
+                    Colors.brown,
+                    Colors.yellow,
+                  ]
+                )
               ),
+            ),
+            //backgroundColor: Colors.yellow,
+          ),
+          drawer: new Drawer(
+              child: new ListView(
+                children: <Widget>[
 
-              new ListTile(
-                title: new Text("Messages"),
-                trailing: 
-                  CircleAvatar(
-                  backgroundImage: NetworkImage(
-                  imageUrl,
+                  new UserAccountsDrawerHeader(accountName: Text(name), accountEmail: Text(email),
+                    decoration: new BoxDecoration(
+                        gradient: LinearGradient(
+                          begin: Alignment.center,
+                          end: Alignment.bottomRight,
+                          colors: <Color>[
+                            Colors.brown,
+                            Colors.yellow,
+                          ]
+                        )
+                    ),
+                    currentAccountPicture: new GestureDetector(
+                      child: new CircleAvatar(
+                          backgroundImage: NetworkImage(imageUrl)
+                      ),
+                    ),),
+                  
+                  new ListTile(
+
+                    title: new Text("Profile"),
+                    trailing:
+                    CircleAvatar(
+                      backgroundImage: NetworkImage(
+                        imageUrl,
+                      ),
+                      radius: 12,
+                      backgroundColor: Colors.transparent,
+                    ),
+                    onTap: () {
+                      Navigator.of(context).pop();
+                      Navigator.of(context).push(new MaterialPageRoute(builder: (BuildContext context) => new FirstScreen()));
+                    },
                   ),
-                  radius: 12,
-                  backgroundColor: Colors.transparent,
-                ),
-                onTap: () { 
-                  Navigator.of(context).pop();
-                  Navigator.of(context).push(new MaterialPageRoute(builder: (BuildContext context) => new Messages(currentUserId: prefs.getString('id'))));
-                },
-              ),
 
-              new ListTile(
-                title: new Text("Sign Out"),
-                trailing: 
-                  CircleAvatar(
-                  backgroundImage: AssetImage(
-                  ("assets/sign_out.png"),
+                  new ListTile(
+                    title: new Text("Messages"),
+                    trailing:
+                    CircleAvatar(
+                      backgroundImage: NetworkImage(
+                        imageUrl,
+                      ),
+                      radius: 12,
+                      backgroundColor: Colors.transparent,
+                    ),
+                    onTap: () {
+                      Navigator.of(context).pop();
+                      Navigator.of(context).push(new MaterialPageRoute(builder: (BuildContext context) => new Messages(currentUserId: prefs.getString('id'))));
+                    },
                   ),
-                  radius: 12,
-                  backgroundColor: Colors.transparent,
-                ),
-                onTap: () {
-                  signOutGoogle();
-                  Navigator.of(context).popUntil((route)=>route.isFirst);
-                  Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) {return LoginPage();}), ModalRoute.withName('/'));
-                },
-              ),
 
-              // new ListTile(
-              //   title: new Text("Close"),
-              //   trailing: 
-              //     new Icon(Icons.cancel),
-              //     onTap: () { 
-              //     Navigator.of(context).pop();
-              //   },
-              // )
+                  new ListTile(
+                    title: new Text("Sign Out"),
+                    trailing:
+                    CircleAvatar(
+                      backgroundImage: AssetImage(
+                        ("assets/sign_out.png"),
+                      ),
+                      radius: 12,
+                      backgroundColor: Colors.transparent,
+                    ),
+                    onTap: () {
+                      signOutGoogle();
+                      Navigator.of(context).popUntil((route)=>route.isFirst);
+                      Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) {return LoginPage();}), ModalRoute.withName('/'));
+                    },
+                  ),
 
-            ],
-          )
-        ),
+                  // new ListTile(
+                  //   title: new Text("Close"),
+                  //   trailing:
+                  //     new Icon(Icons.cancel),
+                  //     onTap: () {
+                  //     Navigator.of(context).pop();
+                  //   },
+                  // )
+
+                ],
+              )
+          ),
           body: Container(
+            decoration: new BoxDecoration(
+                gradient: LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: <Color>[
+                      Colors.brown,
+                      Colors.yellow,
+                    ]
+                )
+            ),
             // Center is a layout widget. It takes a single child and positions it
             // in the middle of the parent.
             child: Stack(
@@ -138,8 +172,8 @@ class HomePage extends StatelessWidget {
                 )
               ],
             ),
-            ),
-          )
+          ),
+        )
     );
   }
 
@@ -208,7 +242,10 @@ class HomePage extends StatelessWidget {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => UserProfile()
+                    builder: (context) => UserProfile(
+                      peerID: '${document['nickname']}',
+                      peerPic: document['photoUrl'],
+                    )
                 )
             ); // Push
           },
