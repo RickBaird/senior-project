@@ -132,7 +132,7 @@ class _HomeState extends State<Home> {
                             setSelctedRadio(1, val);
                             print("Q2 $answer");
                           }),
-                      new Text('yes'),
+                      new Text('on'),
                     ]),
                 new Row(
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -144,7 +144,7 @@ class _HomeState extends State<Home> {
                             setSelctedRadio(1, val);
                             print("Q2 $answer");
                           }),
-                      new Text('no'),
+                      new Text('off'),
                     ]),
 
                 new Text(' '),
