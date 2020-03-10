@@ -49,6 +49,7 @@ class ChatScreen extends StatefulWidget {
 }
 
 class ChatScreenState extends State<ChatScreen> {
+
   ChatScreenState({Key key, @required this.peerId, @required this.peerAvatar});
 
   String peerId;

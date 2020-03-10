@@ -3,8 +3,6 @@ import 'package:ruroomates/home.dart';
 import 'package:ruroomates/sign_in.dart';
 import 'package:ruroomates/first_screen.dart';
 
-import 'home.dart';
-
 class LoginPage extends StatefulWidget {
   @override
   _LoginPageState createState() => _LoginPageState();

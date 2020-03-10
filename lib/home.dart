@@ -1,12 +1,14 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ruroomates/first_screen.dart';
 import 'package:ruroomates/sign_in.dart';
 import 'package:ruroomates/login_page.dart';
 import 'package:ruroomates/messages.dart';
 import 'package:ruroomates/user.dart';
+import 'package:ruroomates/Chat.dart';
 
 import 'const.dart';
 
@@ -218,7 +220,7 @@ class HomePage extends StatelessWidget {
                     children: <Widget>[
                       Container(
                         child: Text(
-                          'Nickname: ${document['nickname']}',
+                          '${document['nickname']}',
                           style: TextStyle(color: primaryColor),
                         ),
                         alignment: Alignment.centerLeft,
@@ -237,6 +239,31 @@ class HomePage extends StatelessWidget {
                   margin: EdgeInsets.only(left: 20.0),
                 ),
               ),
+              Container(
+                height: 60.0,
+                width: 60.0,
+                padding: EdgeInsets.only(left: 5.0),
+                child: RaisedButton(
+                  child: Row(
+                    children: <Widget>[
+                      Flexible(
+                      child: Icon(
+                        Icons.message,
+                      ),
+                      ),
+                    ],
+                  ),
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => Chat(
+                              peerId: document.documentID,
+                              peerAvatar: document['photoUrl'],
+                            )));
+                  },
+                ),
+              )
             ],
           ),
           onPressed: () {
