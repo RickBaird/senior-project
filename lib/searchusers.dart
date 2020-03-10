@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:ruroomates/searchservice.dart';
 import 'package:ruroomates/user.dart';
@@ -77,9 +76,7 @@ class SearchUsersState extends State<SearchUsers> {
   }
 }
 
-Widget buildResultCard(data, BuildContext context) {
-  DocumentSnapshot document;
-
+Widget buildResultCard(data, context) {
     return Card(
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10.0)),
@@ -91,8 +88,8 @@ Widget buildResultCard(data, BuildContext context) {
                   MaterialPageRoute(
                       builder: (context) =>
                           UserProfile(
-                            peerID: document['nickname'],
-                            peerPic: document['photoUrl'],
+                            peerID: data['nickname'],
+                            peerPic: data['photoUrl'],
                           )
                   )
               );
