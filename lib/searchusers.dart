@@ -1,4 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
+import 'package:ruroomates/searchservice.dart';
+import 'package:ruroomates/user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:ruroomates/searchservice.dart';
@@ -70,26 +73,43 @@ class SearchUsersState extends State<SearchUsers> {
               primary: false,
               shrinkWrap: true,
               children: tempSearchStore.map((element) {
-                return buildResultCard(element);
+                return buildResultCard(element, context);
+
               }).toList())
         ]));
   }
 }
 
-Widget buildResultCard(data) {
-  return Card(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
-      elevation: 2.0,
-      child: Container(
-          child: Center(
-              child: Text(data['nickname'],
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 20.0,
-                ),
-              )
-          )
-      )
-  );
+Widget buildResultCard(data, context) {
+    return Card(
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10.0)),
+        elevation: 2.0,
+        child: new InkWell(
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) =>
+                          UserProfile(
+                            peerID: data['nickname'],
+                            peerPic: data['photoUrl'],
+                          )
+                  )
+              );
+            },
+            child: Container(
+                child: Center(
+                    child: Text(data['nickname'],
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 20.0,
+                      ),
+                    )
+                )
+            )
+        )
+    );
+
 }

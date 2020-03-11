@@ -46,9 +46,10 @@ Future<String> signInWithGoogle() async {
   assert(await user.getIdToken() != null);
 
 
-
   FirebaseUser currentUser = await _auth.currentUser();
   assert(user.uid == currentUser.uid);
+
+
  
  if (user != null) {
       // Check is already sign up

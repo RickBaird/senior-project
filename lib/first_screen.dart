@@ -9,6 +9,7 @@ class FirstScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
+
       appBar: new AppBar(title: new Text("Your Profile"),
       backgroundColor: Colors.blueAccent,
       leading: new IconButton(icon: new Icon(Icons.arrow_back), onPressed: () {
