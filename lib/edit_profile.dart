@@ -16,7 +16,7 @@ class EditProfile extends StatelessWidget {
     return new Scaffold(
       appBar: new AppBar(
         title: new Text(
-          'SETTINGS',
+          'EDIT PROFILE',
           style: TextStyle(color: primaryColor, fontWeight: FontWeight.bold),
         ),
         centerTitle: true,
@@ -34,6 +34,9 @@ class SettingsScreen extends StatefulWidget {
 class SettingsScreenState extends State<SettingsScreen> {
   TextEditingController controllerNickname;
   TextEditingController controllerAboutMe;
+  TextEditingController controllerSnapchat;
+  TextEditingController controllerInstagram;
+  TextEditingController controllerTwitter;
 
   SharedPreferences prefs;
 
@@ -41,12 +44,19 @@ class SettingsScreenState extends State<SettingsScreen> {
   String nickname = '';
   String aboutMe = '';
   String photoUrl = '';
+  String snapchat = '';
+  String instagram = '';
+  String twitter = '';
 
   bool isLoading = false;
   File avatarImageFile;
 
   final FocusNode focusNodeNickname = new FocusNode();
   final FocusNode focusNodeAboutMe = new FocusNode();
+  final FocusNode focusNodeSnapchat = new FocusNode();
+  final FocusNode focusNodeInstagram = new FocusNode();
+  final FocusNode focusNodeTwitter = new FocusNode();
+
 
   @override
   void initState() {
@@ -60,9 +70,17 @@ class SettingsScreenState extends State<SettingsScreen> {
     nickname = prefs.getString('nickname') ?? '';
     aboutMe = prefs.getString('aboutMe') ?? '';
     photoUrl = prefs.getString('photoUrl') ?? '';
+    snapchat = prefs.getString('snapchat') ?? '';
+    instagram = prefs.getString('instagram') ?? '';
+    twitter = prefs.getString('twitter') ?? '';
+
 
     controllerNickname = new TextEditingController(text: nickname);
     controllerAboutMe = new TextEditingController(text: aboutMe);
+    controllerSnapchat = new TextEditingController(text: snapchat);
+    controllerInstagram = new TextEditingController(text: instagram);
+    controllerTwitter = new TextEditingController(text: twitter);
+
 
     // Force refresh input
     setState(() {});
@@ -93,7 +111,8 @@ class SettingsScreenState extends State<SettingsScreen> {
           Firestore.instance
               .collection('users')
               .document(id)
-              .updateData({'nickname': nickname, 'aboutMe': aboutMe, 'photoUrl': photoUrl}).then((data) async {
+              .updateData({'nickname': nickname, 'aboutMe': aboutMe, 'photoUrl': photoUrl, 'snapchat': snapchat,
+              'instagram' : instagram, 'twitter' : twitter}).then((data) async {
             await prefs.setString('photoUrl', photoUrl);
             setState(() {
               isLoading = false;
@@ -128,6 +147,9 @@ class SettingsScreenState extends State<SettingsScreen> {
   void handleUpdateData() {
     focusNodeNickname.unfocus();
     focusNodeAboutMe.unfocus();
+    focusNodeSnapchat.unfocus();
+    focusNodeInstagram.unfocus();
+    focusNodeTwitter.unfocus();
 
     setState(() {
       isLoading = true;
@@ -136,10 +158,14 @@ class SettingsScreenState extends State<SettingsScreen> {
     Firestore.instance
         .collection('users')
         .document(id)
-        .updateData({'nickname': nickname, 'aboutMe': aboutMe, 'photoUrl': photoUrl}).then((data) async {
+        .updateData({'nickname': nickname, 'aboutMe': aboutMe, 'photoUrl': photoUrl, 'snapchat': snapchat,
+        'instagram': instagram, 'twitter': twitter}).then((data) async {
       await prefs.setString('nickname', nickname);
       await prefs.setString('aboutMe', aboutMe);
       await prefs.setString('photoUrl', photoUrl);
+      await prefs.setString('snapchat', snapchat);
+      await prefs.setString('instagram', instagram);
+      await prefs.setString('twitter', twitter);
 
       setState(() {
         isLoading = false;
@@ -277,8 +303,89 @@ class SettingsScreenState extends State<SettingsScreen> {
                     ),
                     margin: EdgeInsets.only(left: 30.0, right: 30.0),
                   ),
+
+                  // Snapchat account
+                  Container(
+                    child: Text(
+                      'Snapchat',
+                      style: TextStyle(fontStyle: FontStyle.italic, fontWeight: FontWeight.bold, color: primaryColor),
+                    ),
+                    margin: EdgeInsets.only(left: 10.0, top: 30.0, bottom: 5.0),
+                  ),
+                  Container(
+                    child: Theme(
+                      data: Theme.of(context).copyWith(primaryColor: primaryColor),
+                      child: TextField(
+                        decoration: InputDecoration(
+                          hintText: 'JohnDoe123',
+                          contentPadding: EdgeInsets.all(5.0),
+                          hintStyle: TextStyle(color: greyColor),
+                        ),
+                        controller: controllerSnapchat,
+                        onChanged: (value) {
+                          snapchat = value;
+                        },
+                        focusNode: focusNodeSnapchat,
+                      ),
+                    ),
+                    margin: EdgeInsets.only(left: 30.0, right: 30.0),
+                  ),
                 ],
                 crossAxisAlignment: CrossAxisAlignment.start,
+              ),
+
+              // Instagram
+              Container(
+                child: Text(
+                  'Instagram',
+                  style: TextStyle(fontStyle: FontStyle.italic, fontWeight: FontWeight.bold, color: primaryColor),
+                ),
+                margin: EdgeInsets.only(left: 10.0, top: 30.0, bottom: 5.0),
+              ),
+              Container(
+                child: Theme(
+                  data: Theme.of(context).copyWith(primaryColor: primaryColor),
+                  child: TextField(
+                    decoration: InputDecoration(
+                      hintText: 'JohnD',
+                      contentPadding: EdgeInsets.all(5.0),
+                      hintStyle: TextStyle(color: greyColor),
+                    ),
+                    controller: controllerInstagram,
+                    onChanged: (value) {
+                      instagram = value;
+                    },
+                    focusNode: focusNodeInstagram,
+                  ),
+                ),
+                margin: EdgeInsets.only(left: 30.0, right: 30.0),
+              ),
+
+              // Twitter Account
+              Container(
+                child: Text(
+                  'Twitter',
+                  style: TextStyle(fontStyle: FontStyle.italic, fontWeight: FontWeight.bold, color: primaryColor),
+                ),
+                margin: EdgeInsets.only(left: 10.0, top: 30.0, bottom: 5.0),
+              ),
+              Container(
+                child: Theme(
+                  data: Theme.of(context).copyWith(primaryColor: primaryColor),
+                  child: TextField(
+                    decoration: InputDecoration(
+                      hintText: 'Johnny_Doe',
+                      contentPadding: EdgeInsets.all(5.0),
+                      hintStyle: TextStyle(color: greyColor),
+                    ),
+                    controller: controllerTwitter,
+                    onChanged: (value) {
+                      twitter = value;
+                    },
+                    focusNode: focusNodeTwitter,
+                  ),
+                ),
+                margin: EdgeInsets.only(left: 30.0, right: 30.0),
               ),
 
               // Button
