@@ -2,6 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:ruroomates/searchservice.dart';
 import 'package:ruroomates/user.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
+import 'package:ruroomates/searchservice.dart';
 
 class SearchUsers extends StatefulWidget {
   @override
@@ -71,6 +74,7 @@ class SearchUsersState extends State<SearchUsers> {
               shrinkWrap: true,
               children: tempSearchStore.map((element) {
                 return buildResultCard(element, context);
+
               }).toList())
         ]));
   }
@@ -107,4 +111,5 @@ Widget buildResultCard(data, context) {
             )
         )
     );
+
 }
