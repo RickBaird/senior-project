@@ -71,7 +71,7 @@ class FirstScreen extends StatelessWidget {
                   Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (context) {
-                      return QuestionairePage();
+                      return QuestionnairePage();
                     },
                   ),
                 );
