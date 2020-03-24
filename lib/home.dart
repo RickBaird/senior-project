@@ -22,7 +22,6 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return MaterialApp(
         title: "Home",
         home: Scaffold(
@@ -30,14 +29,14 @@ class HomePage extends StatelessWidget {
             title: Text("Home Page"),
             flexibleSpace: Container(
               decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: <Color>[
-                    Colors.brown,
-                    Colors.yellow,
-                  ]
-                )
+                  gradient: LinearGradient(
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                      colors: <Color>[
+                        Colors.brown,
+                        Colors.yellow,
+                      ]
+                  )
               ),
             ),
             //backgroundColor: Colors.yellow,
@@ -49,12 +48,12 @@ class HomePage extends StatelessWidget {
                   new UserAccountsDrawerHeader(accountName: Text(name), accountEmail: Text(email),
                     decoration: new BoxDecoration(
                         gradient: LinearGradient(
-                          begin: Alignment.center,
-                          end: Alignment.bottomRight,
-                          colors: <Color>[
-                            Colors.brown,
-                            Colors.yellow,
-                          ]
+                            begin: Alignment.center,
+                            end: Alignment.bottomRight,
+                            colors: <Color>[
+                              Colors.brown,
+                              Colors.yellow,
+                            ]
                         )
                     ),
                     currentAccountPicture: new GestureDetector(
@@ -112,28 +111,37 @@ class HomePage extends StatelessWidget {
                       Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) {return LoginPage();}), ModalRoute.withName('/'));
                     },
                   ),
-
-                  // new ListTile(
-                  //   title: new Text("Close"),
-                  //   trailing:
-                  //     new Icon(Icons.cancel),
-                  //     onTap: () {
-                  //     Navigator.of(context).pop();
-                  //   },
-                  // )
-
                 ],
               )
           ),
           body: Container(
-            decoration: new BoxDecoration(
+            decoration: BoxDecoration(
+                color: greyColor,
+                /* INSANE SHADOW */
+                boxShadow: [
+                  BoxShadow(
+                      color: Colors.grey[600],
+                      offset: Offset(4.0, 4.0),
+                      blurRadius: 15.0,
+                      spreadRadius: 1.0
+                  ),
+                  BoxShadow(
+                      color: Colors.white,
+                      offset: Offset(-4.0, -4.0),
+                      blurRadius: 15.0,
+                      spreadRadius: 1.0
+                  ),
+                ],
                 gradient: LinearGradient(
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                    colors: <Color>[
-                      Colors.brown,
-                      Colors.yellow,
-                    ]
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [
+                    Colors.yellow[500],
+                    Colors.brown[300],
+                    Colors.brown[400],
+                    Colors.brown[700],
+                  ],
+                  stops: [0.1, 0.3, 0.8, 0.9],
                 )
             ),
             // Center is a layout widget. It takes a single child and positions it
@@ -231,6 +239,7 @@ class HomePage extends StatelessWidget {
                         child: Text(
                           'About me: ${document['aboutMe'] ?? 'Not available'}',
                           style: TextStyle(color: primaryColor),
+                          maxLines: 2,
                         ),
                         alignment: Alignment.centerLeft,
                         margin: EdgeInsets.fromLTRB(10.0, 0.0, 0.0, 0.0),
@@ -243,27 +252,49 @@ class HomePage extends StatelessWidget {
               Container(
                 height: 60.0,
                 width: 60.0,
-                padding: EdgeInsets.only(left: 5.0),
-                child: RaisedButton(
+                padding: EdgeInsets.only(left: 12.0),
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: greyColor,
+                    /* INSANE SHADOW */
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey[600],
+                        offset: Offset(4.0, 4.0),
+                        blurRadius: 15.0,
+                        spreadRadius: 1.0
+                      ),
+                      BoxShadow(
+                        color: Colors.white,
+                        offset: Offset(-4.0, -4.0),
+                        blurRadius: 15.0,
+                        spreadRadius: 1.0
+                      ),
+                    ],
+                    gradient: LinearGradient(
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                      colors: [
+                        Colors.grey[200],
+                        Colors.grey[300],
+                        Colors.grey[400],
+                        Colors.grey[500],
+                      ],
+                      stops: [0.1, 0.3, 0.8, 0.9],
+                    )
+                  ),
                   child: Row(
                     children: <Widget>[
                       Flexible(
-                      child: Icon(
-                        Icons.message,
-                      ),
+                        child: Text(
+                          '80%',
+                          style: TextStyle(
+                            fontSize: 18.0,
+                          ),
+                        ),
                       ),
                     ],
                   ),
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => Chat(
-                              peerId: document.documentID,
-                              peerAvatar: document['photoUrl'],
-                            )));
-                  },
-                ),
               )
             ],
           ),
@@ -274,6 +305,10 @@ class HomePage extends StatelessWidget {
                     builder: (context) => UserProfile(
                       peerID: '${document['nickname']}',
                       peerPic: document['photoUrl'],
+                      peerAboutMe: '${document['aboutMe'] ?? 'Not available'}',
+                      insta:       '${document['instagram'] ?? 'Not available'}',
+                      twitter:     '${document['twitter'] ?? 'Not available'}',
+                      //peerAboutMe: document['aboutMe']
                     )
                 )
             ); // Push
