@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:ruroomates/first_screen.dart';
 import 'dart:async';
@@ -115,7 +114,7 @@ class SettingsScreenState extends State<SettingsScreen> {
               .collection('users')
               .document(id)
               .updateData({'nickname': nickname, 'aboutMe': aboutMe, 'photoUrl': photoUrl, 'snapchat': snapchat,
-              'instagram' : instagram, 'twitter' : twitter}).then((data) async {
+            'instagram' : instagram, 'twitter' : twitter}).then((data) async {
             await prefs.setString('photoUrl', photoUrl);
             setState(() {
               isLoading = false;
@@ -162,7 +161,7 @@ class SettingsScreenState extends State<SettingsScreen> {
         .collection('users')
         .document(id)
         .updateData({'nickname': nickname, 'aboutMe': aboutMe, 'photoUrl': photoUrl, 'snapchat': snapchat,
-        'instagram': instagram, 'twitter': twitter}).then((data) async {
+      'instagram': instagram, 'twitter': twitter}).then((data) async {
       await prefs.setString('nickname', nickname);
       await prefs.setString('aboutMe', aboutMe);
       await prefs.setString('photoUrl', photoUrl);
@@ -310,7 +309,7 @@ class SettingsScreenState extends State<SettingsScreen> {
                   // Snapchat account
                   Container(
                     child: Text(
-                      'Snapchat',
+                      'Snapchat Username',
                       style: TextStyle(fontStyle: FontStyle.italic, fontWeight: FontWeight.bold, color: primaryColor),
                     ),
                     margin: EdgeInsets.only(left: 10.0, top: 30.0, bottom: 5.0),
@@ -340,7 +339,7 @@ class SettingsScreenState extends State<SettingsScreen> {
               // Instagram
               Container(
                 child: Text(
-                  'Instagram',
+                  'Instagram Username',
                   style: TextStyle(fontStyle: FontStyle.italic, fontWeight: FontWeight.bold, color: primaryColor),
                 ),
                 margin: EdgeInsets.only(left: 10.0, top: 30.0, bottom: 5.0),
@@ -367,7 +366,7 @@ class SettingsScreenState extends State<SettingsScreen> {
               // Twitter Account
               Container(
                 child: Text(
-                  'Twitter',
+                  'Twitter Username',
                   style: TextStyle(fontStyle: FontStyle.italic, fontWeight: FontWeight.bold, color: primaryColor),
                 ),
                 margin: EdgeInsets.only(left: 10.0, top: 30.0, bottom: 5.0),
