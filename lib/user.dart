@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ruroomates/home.dart';
@@ -16,6 +16,7 @@ class UserProfile extends StatelessWidget {
   String currentUserId;
   DocumentSnapshot document;
   final String peerID;
+  final String peerName;
   final String peerPic;
   final String peerAboutMe;
   final String insta;
@@ -23,7 +24,8 @@ class UserProfile extends StatelessWidget {
 
   UserProfile(
       {Key key,
-      @required this.peerID,
+        @required this.peerID,
+      @required this.peerName,
       @required this.peerPic,
       @required this.peerAboutMe,
       @required this.insta,
@@ -45,6 +47,7 @@ class UserProfile extends StatelessWidget {
       body: WillPopScope(
         child: new OtherUserProfile(
                 peerID: peerID,
+                peerName: peerName,
                 peerPic: peerPic,
                 peerAboutMe: peerAboutMe,
                 insta: insta,
@@ -62,6 +65,7 @@ class OtherUserProfile extends StatefulWidget {
   final String title;
   DocumentSnapshot document;
   String peerID;
+  String peerName;
   String peerPic;
   String peerAboutMe;
   String insta;
@@ -70,7 +74,8 @@ class OtherUserProfile extends StatefulWidget {
   OtherUserProfile(
       {Key key,
       this.title,
-      @required this.peerID,
+        @required this.peerID,
+      @required this.peerName,
       @required this.peerPic,
       @required this.peerAboutMe,
       @required this.insta,
@@ -80,6 +85,7 @@ class OtherUserProfile extends StatefulWidget {
   @override
   _OtherUserProfileState createState() => _OtherUserProfileState(
       peerID: peerID,
+      peerName: peerName,
       peerPic: peerPic,
       peerAboutMe: peerAboutMe,
       insta: insta,
@@ -89,7 +95,8 @@ class OtherUserProfile extends StatefulWidget {
 class _OtherUserProfileState extends State<OtherUserProfile> {
   _OtherUserProfileState(
       {Key key,
-      @required this.peerID,
+        @required this.peerID,
+      @required this.peerName,
       @required this.peerPic,
       @required this.peerAboutMe,
       @required this.insta,
@@ -97,15 +104,17 @@ class _OtherUserProfileState extends State<OtherUserProfile> {
 
   SharedPreferences prefs;
   String groupChatId;
-  DocumentSnapshot document = Firestore.instance.collection('messages').document(groupChatId).collection(groupChatId).toString();
+  DocumentSnapshot document;
   String profileViewID;
   String peerID;
+  String peerName;
   String peerPic;
   String peerAboutMe;
   String insta;
   String twitter;
   String id;
   String currentUserId;
+  bool isLoading = false;
 
   Future<bool> onBackPress() {
     Navigator.push(
@@ -115,221 +124,261 @@ class _OtherUserProfileState extends State<OtherUserProfile> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      child: SizedBox.expand(
-        child: Container(
-          decoration: BoxDecoration(
-              gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: <Color>[
-                    Colors.brown,
-                    Colors.yellow,
-                  ])),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    GestureDetector(
-                      child: Material(
-                        child: /* document['photoUrl'] != null ? */ CachedNetworkImage(
-                          placeholder: (context, url) =>
-                              Container(
-                                child: CircularProgressIndicator(
-                                  strokeWidth: 1.0,
-                                  valueColor:
-                                  AlwaysStoppedAnimation<Color>(themeColor),
+      return  WillPopScope(
+        child: SizedBox.expand(
+          child: Container(
+            decoration: BoxDecoration(
+                gradient: LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: <Color>[
+                      Colors.brown[700],
+                      Colors.brown[500],
+                      Colors.yellow[500],
+                      Colors.yellow[800],
+                    ])),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      GestureDetector(
+                        child: CircleAvatar(
+                          radius: 70.0,
+                          child: ClipOval(
+                          child: /* document['photoUrl'] != null ? */ CachedNetworkImage(
+                            placeholder: (context, url) =>
+                                Container(
+                                  child: CircularProgressIndicator(
+                                    strokeWidth: 1.0,
+                                    valueColor:
+                                    AlwaysStoppedAnimation<Color>(themeColor),
+                                  ),
+                                  width: 40.0,
+                                  height: 40.0,
+                                  padding: EdgeInsets.all(15.0),
                                 ),
-                                width: 40.0,
-                                height: 40.0,
-                                padding: EdgeInsets.all(15.0),
-                              ),
-                          imageUrl: peerPic,
-                          width: 150.0,
-                          height: 150.0,
-                          fit: BoxFit.cover,
-                        ),
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(30.0),
-                        ),
-                        clipBehavior: Clip.hardEdge,
+                            imageUrl: peerPic,
+                            width: 150.0,
+                            height: 150.0,
+                            fit: BoxFit.cover,
+                          ),
+//                          borderRadius: BorderRadius.all(
+//                            Radius.circular(30.0),
+//                          ),
+//                          clipBehavior: Clip.hardEdge,
+                          ),
+                          ),
+                        onTap: () {
+                          Navigator.push(context, MaterialPageRoute(builder: (
+                              _) {
+                            return DetailScreen(peerPic: peerPic);
+                          }));
+                        },
                       ),
-                      onTap: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (_) {
-                          return DetailScreen(peerPic: peerPic);
-                        }));
-                      },
-                    ),
-                  ]),
-              Row(mainAxisSize: MainAxisSize.min, children: <Widget>[
-                Flexible(
-                  child: Container(
-                    padding: EdgeInsets.all(20.0),
-                    child: Text(
-                      peerID,
-                      //'${document['nickname']}',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 30.0,
+                    ]),
+                Row(mainAxisSize: MainAxisSize.min, children: <Widget>[
+                  Flexible(
+                    child: Container(
+                      padding: EdgeInsets.all(20.0),
+                      child: Text(
+                        peerName,
+                        //'${document['nickname']}',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 30.0,
+                        ),
                       ),
                     ),
                   ),
-                ),
-              ]),
-              Row(
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  Flexible(
-                    child: Container(
-                      padding: EdgeInsets.all(5.0),
-                      child: Text(
-                        'About Me: ',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 20.0,
-                        ),
-                      ),
-                    ),
-                  )
-                ],
-              ),
-              Row(
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  Flexible(
-                    child: Container(
-                      padding: EdgeInsets.all(1.0),
-                      child: Text(
-                        peerAboutMe ?? 'Not available',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 18.0,
-                        ),
-                      ),
-                    ),
-                  )
-                ],
-              ),
-              Flexible(
-                child: SizedBox(
-                  height: 80.0,
-                ),
-              ),
-              Flexible(
-                child: Row(
+                ]),
+                Row(
+                  mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
-                    Expanded(
+                    Flexible(
                       child: Container(
-                        height: 60.0,
-                        width: 60.0,
                         padding: EdgeInsets.all(5.0),
-                        child: RaisedButton(
-                          child: Row(
-                            children: <Widget>[
-                              Flexible(
-                                child: Icon(
-                                  Icons.message,
-                                ),
-                              ),
-                            ],
+                        child: Text(
+                          'About Me: ',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 20.0,
                           ),
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        Chat(
-                                          peerId: '${document['id']}',
-                                          //peerId: '${document.documentID}',
-                                          peerAvatar: document['photoUrl'],
-                                        )));
-                          },
                         ),
                       ),
-                    ),
+                    )
                   ],
                 ),
-              ),
-              Flexible(
-                child: SizedBox(
-                  height: 50.0,
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Flexible(
+                      child: Container(
+                        padding: EdgeInsets.all(1.0),
+                        child: Text(
+                          peerAboutMe ?? 'Not available',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 18.0,
+                          ),
+                        ),
+                      ),
+                    )
+                  ],
                 ),
-              ),
-              Column(
-                children: <Widget>[
-                  Row(
+                Flexible(
+                  child: SizedBox(
+                    height: 80.0,
+                  ),
+                ),
+                Flexible(
+                  child: Row(
                     children: <Widget>[
-                      SizedBox(
-                        width: 10.0,
-                      ),
-                      Container(
-                          width: 30.0,
-                          height: 30.0,
-                          child: Material(
-                            child: InkWell(
-                              onTap: _launchInsta,
-                              child: Image(
-                                image: AssetImage('assets/insta_icon.png'),
-                              ),
+                      Expanded(
+                        child: Container(
+                          height: 60.0,
+                          width: 60.0,
+                          padding: EdgeInsets.all(5.0),
+                          child: RaisedButton(
+                            child: Row(
+                              children: <Widget>[
+                                Flexible(
+                                  child: Icon(
+                                    Icons.message,
+                                  ),
+                                ),
+                              ],
                             ),
-                          )),
-                      SizedBox(
-                        width: 10.0,
-                      ),
-                      Text(
-                        insta ?? 'Not available',
-                        style: TextStyle(
-                          fontSize: 20.0,
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          Chat(
+                                            peerId: peerID,
+                                            peerAvatar: peerPic,
+                                          )));
+                            },
+                          ),
                         ),
-                      )
+                      ),
                     ],
                   ),
-                  SizedBox(
-                    height: 10.0,
+                ),
+                Flexible(
+                  child: SizedBox(
+                    height: 50.0,
                   ),
-                  Row(
-                    children: <Widget>[
-                      SizedBox(
-                        width: 10.0,
-                      ),
-                      Container(
-                          width: 30.0,
-                          height: 30.0,
-                          child: Material(
-                            child: InkWell(
-                              onTap: _launchTwitter,
-                              child: Image(
-                                image: AssetImage('assets/twitter_logo.png'),
-                              ),
-                            ),
-                          )),
-                      SizedBox(
-                        width: 10.0,
-                      ),
-                      Text(
-                        twitter ?? 'Not available',
-                        style: TextStyle(
-                          fontSize: 20.0,
+                ),
+                Column(
+                  children: <Widget>[
+                    Row(
+                      children: <Widget>[
+                        SizedBox(
+                          width: 10.0,
                         ),
-                      )
-                    ],
-                  )
-                ],
-              )
-            ],
+                        Container(
+                            width: 30.0,
+                            height: 30.0,
+                            child: Material(
+                              child: InkWell(
+                                onTap: _launchInsta,
+                                child: Image(
+                                  image: AssetImage('assets/insta_icon.png'),
+                                ),
+                              ),
+                            )),
+                        SizedBox(
+                          width: 10.0,
+                        ),
+                        Text(
+                          insta ?? 'Not available',
+                          style: TextStyle(
+                            fontSize: 20.0,
+                          ),
+                        )
+                      ],
+                    ),
+                    SizedBox(
+                      height: 10.0,
+                    ),
+                    Row(
+                      children: <Widget>[
+                        SizedBox(
+                          width: 10.0,
+                        ),
+                        Container(
+                            width: 30.0,
+                            height: 30.0,
+                            child: Material(
+                              child: InkWell(
+                                onTap: _launchTwitter,
+                                child: Image(
+                                  image: AssetImage('assets/twitter_logo.png'),
+                                ),
+                              ),
+                            )),
+                        SizedBox(
+                          width: 10.0,
+                        ),
+                        Text(
+                          twitter ?? 'Not available',
+                          style: TextStyle(
+                            fontSize: 20.0,
+                          ),
+                        )
+                      ],
+                    )
+                  ],
+                )
+              ],
+            ),
           ),
         ),
-      ),
-      onWillPop: onBackPress,
-    );
+        onWillPop: onBackPress,
+      );
+    //}
   }
 
   Widget buildItem(BuildContext context, DocumentSnapshot document) {
-    if (document['id'] == currentUserId) {
-      return Container();
-    }
+      return Stack(
+        children: <Widget>[
+          // List
+          Container(
+            child: StreamBuilder(
+              stream: Firestore.instance.collection('users').snapshots(),
+              builder: (context, snapshot) {
+                if (!snapshot.hasData) {
+                  return Center(
+                    child: CircularProgressIndicator(
+                      valueColor: AlwaysStoppedAnimation<Color>(themeColor),
+                    ),
+                  );
+                } else {
+                  return ListView.builder(
+                    padding: EdgeInsets.all(10.0),
+                    itemBuilder: (context, index) => buildItem(context, snapshot.data.documents[index]),
+                    itemCount: snapshot.data.documents.length,
+                  );
+                }
+              },
+            ),
+          ),
+
+          // Loading
+          Positioned(
+            child: isLoading
+                ? Container(
+              child: Center(
+                child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(themeColor)),
+              ),
+              color: Colors.white.withOpacity(0.8),
+            )
+                : Container(),
+          )
+        ],
+      );
   }
 
 
