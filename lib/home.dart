@@ -17,11 +17,14 @@ import 'const.dart';
 // ignore: must_be_immutable
 class HomePage extends StatelessWidget {
 
+  DocumentSnapshot document;
+  String peerID;
   String currentUserId;
   bool isLoading = false;
 
   @override
   Widget build(BuildContext context) {
+
     return MaterialApp(
         title: "Home",
         home: Scaffold(
@@ -74,8 +77,9 @@ class HomePage extends StatelessWidget {
                       backgroundColor: Colors.transparent,
                     ),
                     onTap: () {
+                      print(peerID);
                       Navigator.of(context).pop();
-                      Navigator.of(context).push(new MaterialPageRoute(builder: (BuildContext context) => new FirstScreen()));
+                      Navigator.of(context).push(new MaterialPageRoute(builder: (BuildContext context) => new FirstScreen(peerID: peerID)));
                     },
                   ),
 
@@ -303,7 +307,8 @@ class HomePage extends StatelessWidget {
                 context,
                 MaterialPageRoute(
                     builder: (context) => UserProfile(
-                      peerID: '${document['nickname']}',
+                      peerID: '${document['id']}',
+                      peerName: '${document['nickname']}',
                       peerPic: document['photoUrl'],
                       peerAboutMe: '${document['aboutMe'] ?? 'Not available'}',
                       insta:       '${document['instagram'] ?? 'Not available'}',
