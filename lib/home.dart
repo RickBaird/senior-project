@@ -36,8 +36,8 @@ class HomePage extends StatelessWidget {
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
                       colors: <Color>[
-                        Colors.brown,
-                        Colors.yellow,
+                        Colors.teal[700],
+                        Colors.teal[200],
                       ]
                   )
               ),
@@ -54,8 +54,8 @@ class HomePage extends StatelessWidget {
                             begin: Alignment.center,
                             end: Alignment.bottomRight,
                             colors: <Color>[
-                              Colors.brown,
-                              Colors.yellow,
+                              Colors.teal[700],
+                              Colors.teal[200],
                             ]
                         )
                     ),
@@ -119,35 +119,36 @@ class HomePage extends StatelessWidget {
               )
           ),
           body: Container(
-            decoration: BoxDecoration(
-                color: greyColor,
-                /* INSANE SHADOW */
-                boxShadow: [
-                  BoxShadow(
-                      color: Colors.grey[600],
-                      offset: Offset(4.0, 4.0),
-                      blurRadius: 15.0,
-                      spreadRadius: 1.0
-                  ),
-                  BoxShadow(
-                      color: Colors.white,
-                      offset: Offset(-4.0, -4.0),
-                      blurRadius: 15.0,
-                      spreadRadius: 1.0
-                  ),
-                ],
-                gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: [
-                    Colors.yellow[500],
-                    Colors.brown[300],
-                    Colors.brown[400],
-                    Colors.brown[700],
-                  ],
-                  stops: [0.1, 0.3, 0.8, 0.9],
-                )
-            ),
+            color: Colors.teal[500],
+//            decoration: BoxDecoration(
+//                color: greyColor,
+//                /* INSANE SHADOW */
+//                boxShadow: [
+//                  BoxShadow(
+//                      color: Colors.grey[600],
+//                      offset: Offset(4.0, 4.0),
+//                      blurRadius: 15.0,
+//                      spreadRadius: 1.0
+//                  ),
+//                  BoxShadow(
+//                      color: Colors.white,
+//                      offset: Offset(-4.0, -4.0),
+//                      blurRadius: 15.0,
+//                      spreadRadius: 1.0
+//                  ),
+//                ],
+//                gradient: LinearGradient(
+//                  begin: Alignment.topLeft,
+//                  end: Alignment.bottomRight,
+//                  colors: [
+//                    Colors.yellow[500],
+//                    Colors.brown[300],
+//                    Colors.brown[400],
+//                    Colors.brown[700],
+//                  ],
+//                  stops: [0.1, 0.3, 0.8, 0.9],
+//                )
+//            ),
             // Center is a layout widget. It takes a single child and positions it
             // in the middle of the parent.
             child: Stack(
@@ -260,7 +261,6 @@ class HomePage extends StatelessWidget {
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     color: greyColor,
-                    /* INSANE SHADOW */
                     boxShadow: [
                       BoxShadow(
                         color: Colors.grey[600],
