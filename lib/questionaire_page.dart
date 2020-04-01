@@ -91,7 +91,7 @@ class _HomeState extends State<Home> {
         print (userAnser);
 
        Navigator.of(context).pop();
-       2 Navigator.of(context).push(new MaterialPageRoute(builder: (BuildContext context) =>  FirstScreen()));
+       Navigator.of(context).push(new MaterialPageRoute(builder: (BuildContext context) =>  FirstScreen()));
       };
     }
 }
