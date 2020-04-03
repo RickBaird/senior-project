@@ -9,6 +9,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'package:http/http.dart' as http;
+
 class QuestionnairePage extends StatelessWidget {
   // This widget is the root of your application.
   DocumentSnapshot document;
@@ -40,18 +42,29 @@ class _HomeState extends State<Home> {
   String peerID ;
 
   _HomeState({Key key, @required this.peerID});
-    List<int> answer = new List(10);
+  List<int> answer = new List(10);
 
   var clickable ;
-   // the id from the fire base
+  // the id from the fire base
   var userinfo = Firestore.instance.collection("users").document("id").toString();
+  // AWS URL
+  String BASE_URL = "http://ec2-3-80-145-238.compute-1.amazonaws.com:5000";
+  // JSON structure for user
+  String userAnswer = "";
 
+  getUserAnswer(){
+    return userAnswer;
+  }
+
+  setUserAnswer(String userAnswer) {
+    this.userAnswer = userAnswer;
+  }
 
   @override
   void initState() {
     super.initState();
     for (var i = 0; i < answer.length; i++) {
-        answer[i] = 0;
+      answer[i] = 0;
     }
   }
   setSelctedRadio(int holder, int val) {
@@ -61,7 +74,7 @@ class _HomeState extends State<Home> {
     checkedempty();
   }
   SharedPreferences pref;
- checkedempty() async {
+  checkedempty() async {
     pref = await SharedPreferences.getInstance();
     var counter =0;
     for (var i=0;i<answer.length;i++){
@@ -69,8 +82,11 @@ class _HomeState extends State<Home> {
         counter++;
       };
     }
+    // if all of the questions were answered
     if (counter == 10){
+      // Submit Button was clicked at end of Questionaire 
       clickable=(){
+        // Firebase User ID (Used as PK for AWS) 
         peerID = pref.getString( 'id') ?? '' ;
         Firestore.instance.collection('users').document(peerID);
 
@@ -87,14 +103,17 @@ class _HomeState extends State<Home> {
           'q9': answer[8],
           'q10': answer[9],
         };
-        String userAnser = jsonEncode(toJson());
-        print (userAnser);
+        
+        // Encode file to JSON
+        setUserAnswer(jsonEncode(toJson()));
+        // Send Post request to the server
+        createUser();
 
-       Navigator.of(context).pop();
-       Navigator.of(context).push(new MaterialPageRoute(builder: (BuildContext context) =>  FirstScreen()));
+        Navigator.of(context).pop();
+        Navigator.of(context).push(new MaterialPageRoute(builder: (BuildContext context) =>  FirstScreen()));
       };
     }
-}
+  }
   @override
   Widget build(BuildContext context) {
 
@@ -586,16 +605,32 @@ class _HomeState extends State<Home> {
                       new Text('Going out and exploring '),
                     ]),
                 new Row(
-                  children: <Widget>[
+                    children: <Widget>[
 
                       RaisedButton(
+                          // Build the JSON
                           onPressed: clickable,
                           child: Text('Submit')
                       )
 
-                  ]
+                    ]
                 )
               ]),
         ));
+
+
   }
+
+  // Post a new user to the AWS Server
+  Future<http.Response>  createUser() async {
+    print(getUserAnswer());
+    return http.post(
+        BASE_URL + '/product',
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: getUserAnswer()
+    );
+  }
+
 }
