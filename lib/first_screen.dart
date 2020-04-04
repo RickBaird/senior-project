@@ -11,10 +11,10 @@ class FirstScreen extends StatelessWidget {
     return new Scaffold(
 
       appBar: new AppBar(title: new Text("Your Profile"),
-      backgroundColor: Colors.blueAccent,
-      leading: new IconButton(icon: new Icon(Icons.arrow_back), onPressed: () {
-        Navigator.push(context, MaterialPageRoute(builder: (context)=> HomePage()));
-      }),),
+        backgroundColor: Colors.blueAccent,
+        leading: new IconButton(icon: new Icon(Icons.arrow_back), onPressed: () {
+          Navigator.push(context, MaterialPageRoute(builder: (context)=> HomePage()));
+        }),),
       body: Container(
         decoration: BoxDecoration(
           // gradient: LinearGradient(
@@ -69,12 +69,12 @@ class FirstScreen extends StatelessWidget {
               RaisedButton(
                 onPressed: () {
                   Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) {
-                      return QuestionairePage();
-                    },
-                  ),
-                );
+                    MaterialPageRoute(
+                      builder: (context) {
+                        return QuestionnairePage();
+                      },
+                    ),
+                  );
                 },
                 color: Colors.blueAccent,
                 child: Padding(
@@ -92,12 +92,12 @@ class FirstScreen extends StatelessWidget {
               RaisedButton(
                 onPressed: () {
                   Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) {
-                      return EditProfile();
-                    },
-                  ),
-                );
+                    MaterialPageRoute(
+                      builder: (context) {
+                        return EditProfile();
+                      },
+                    ),
+                  );
                 },
                 color: Colors.blueAccent,
                 child: Padding(
