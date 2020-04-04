@@ -79,7 +79,7 @@ class HomePage extends StatelessWidget {
                     onTap: () {
                       print(peerID);
                       Navigator.of(context).pop();
-                      Navigator.of(context).push(new MaterialPageRoute(builder: (BuildContext context) => new FirstScreen(peerID: peerID)));
+                      Navigator.of(context).push(new MaterialPageRoute(builder: (BuildContext context) => new FirstScreen()));
                     },
                   ),
 
