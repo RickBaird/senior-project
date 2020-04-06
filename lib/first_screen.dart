@@ -9,13 +9,27 @@ class FirstScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-      appBar: new AppBar(title: new Text("Profile"),
-      backgroundColor: Colors.blueAccent,
-      leading: new IconButton(icon: new Icon(Icons.arrow_back), onPressed: () {
-        Navigator.push(context, MaterialPageRoute(builder: (context)=> HomePage()));
-      }),),
+
+      appBar: new AppBar(title: new Text("Your Profile"),
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+              gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: <Color>[
+                    Colors.teal[700],
+                    Colors.teal[200],
+                  ]
+              )
+          ),
+        ),
+        //backgroundColor: Colors.tealAccent[100],
+        leading: new IconButton(icon: new Icon(Icons.arrow_back), onPressed: () {
+          Navigator.push(context, MaterialPageRoute(builder: (context)=> HomePage()));
+        }),),
       body: Container(
         decoration: BoxDecoration(
+          color: Colors.teal[500],
           // gradient: LinearGradient(
           //   begin: Alignment.topRight,
           //   end: Alignment.bottomLeft,
@@ -31,7 +45,7 @@ class FirstScreen extends StatelessWidget {
                 backgroundImage: NetworkImage(
                   imageUrl,
                 ),
-                radius: 60,
+                radius: 80,
                 backgroundColor: Colors.transparent,
               ),
               SizedBox(height: 40),
@@ -40,13 +54,13 @@ class FirstScreen extends StatelessWidget {
                 style: TextStyle(
                     fontSize: 15,
                     fontWeight: FontWeight.bold,
-                    color: Colors.black54),
+                    color: Colors.white),
               ),
               Text(
                 name,
                 style: TextStyle(
                     fontSize: 25,
-                    color: Colors.black54,
+                    color: Colors.white,
                     fontWeight: FontWeight.bold),
               ),
               SizedBox(height: 20),
@@ -55,27 +69,27 @@ class FirstScreen extends StatelessWidget {
                 style: TextStyle(
                     fontSize: 15,
                     fontWeight: FontWeight.bold,
-                    color: Colors.black54),
+                    color: Colors.white),
               ),
               Text(
                 email,
                 style: TextStyle(
                     fontSize: 25,
-                    color: Colors.black54,
+                    color: Colors.white,
                     fontWeight: FontWeight.bold),
               ),
               SizedBox(height: 40),
               RaisedButton(
                 onPressed: () {
                   Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) {
-                      return QuestionairePage();
-                    },
-                  ),
-                );
+                    MaterialPageRoute(
+                      builder: (context) {
+                        return QuestionnairePage();
+                      },
+                    ),
+                  );
                 },
-                color: Colors.blueAccent,
+                color: Colors.teal,
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
@@ -91,14 +105,14 @@ class FirstScreen extends StatelessWidget {
               RaisedButton(
                 onPressed: () {
                   Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) {
-                      return EditProfile();
-                    },
-                  ),
-                );
+                    MaterialPageRoute(
+                      builder: (context) {
+                        return EditProfile();
+                      },
+                    ),
+                  );
                 },
-                color: Colors.blueAccent,
+                color: Colors.teal,
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
