@@ -1,31 +1,66 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import'package:ruroomates/Chat.dart';
+import 'package:ruroomates/sign_in.dart';
+import 'package:ruroomates/user.dart';
+import 'package:ruroomates/first_screen.dart';
+import 'dart:convert';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
 
 
 class QuestionnairePage extends StatelessWidget {
   // This widget is the root of your application.
+  DocumentSnapshot document;
+  final String peerID ;
+
+  QuestionnairePage({Key key, @required this.peerID}): super (key: key);
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Stateless App Template',
       theme: ThemeData(
-        primarySwatch: Colors.yellow,
       ),
-      home: Home(),
+      home: Home(peerID: peerID),
     );
   }
 }
 
 
 class Home extends StatefulWidget {
+  String peerID;
+
+  Home({Key key, @required this.peerID}): super(key:key);
   @override
-  _HomeState createState() => _HomeState();
+  _HomeState createState() => _HomeState(peerID: peerID);
 }
 
 class _HomeState extends State<Home> {
+  DocumentSnapshot document;
+  String peerID ;
+
+  _HomeState({Key key, @required this.peerID});
   List<int> answer = new List(10);
+
+  var clickable ;
+  // the id from the fire base
+  var userinfo = Firestore.instance.collection("users").document("id").toString();
+  // AWS URL
+  String BASE_URL = "http://ec2-3-80-145-238.compute-1.amazonaws.com:5000";
+  // JSON structure for user
+  String userAnswer = "";
+
+  getUserAnswer(){
+    return userAnswer;
+  }
+
+  setUserAnswer(String userAnswer) {
+    this.userAnswer = userAnswer;
+  }
 
   @override
   void initState() {
@@ -34,18 +69,71 @@ class _HomeState extends State<Home> {
       answer[i] = 0;
     }
   }
-
   setSelctedRadio(int holder, int val) {
     setState(() {
       answer[holder] = val;
     });
+    checkedempty();
   }
+  SharedPreferences pref;
+  checkedempty() async {
+    pref = await SharedPreferences.getInstance();
+    var counter =0;
+    for (var i=0;i<answer.length;i++){
+      if(answer[i]>0){
+        counter++;
+      };
+    }
+    // if all of the questions were answered
+    if (counter == 10){
+      // Submit Button was clicked at end of Questionaire 
+      clickable=(){
+        // Firebase User ID (Used as PK for AWS) 
+        peerID = pref.getString( 'id') ?? '' ;
+        Firestore.instance.collection('users').document(peerID);
 
+        Map toJson()=>{
+          'id': peerID,
+          'q1': answer[0],
+          'q2': answer[1],
+          'q3': answer[2],
+          'q4': answer[3],
+          'q5': answer[4],
+          'q6': answer[5],
+          'q7': answer[6],
+          'q8': answer[7],
+          'q9': answer[8],
+          'q10': answer[9],
+        };
+        
+        // Encode file to JSON
+        setUserAnswer(jsonEncode(toJson()));
+        // Send Post request to the server
+        createUser();
+
+        Navigator.of(context).pop();
+        Navigator.of(context).push(new MaterialPageRoute(builder: (BuildContext context) =>  FirstScreen()));
+      };
+    }
+  }
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
         appBar: AppBar(
           title: Text('Questionaire'),
+          flexibleSpace: Container(
+            decoration: BoxDecoration(
+                gradient: LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: <Color>[
+                      Colors.brown,
+                      Colors.yellow,
+                    ]
+                )
+            ),
+          ),
         ),
         body: SingleChildScrollView(
           padding: EdgeInsets.all(8.0),
@@ -64,7 +152,7 @@ class _HomeState extends State<Home> {
                           groupValue: answer[0],
                           onChanged: (val) {
                             setSelctedRadio(0, val);
-                            print("Q1 $answer");
+
                           }),
                       new Text('freshman'), // Answer 1
                     ]),
@@ -76,7 +164,7 @@ class _HomeState extends State<Home> {
                           groupValue: answer[0],
                           onChanged: (val) {
                             setSelctedRadio(0, val);
-                            print("Q1 $answer");
+
                           }),
                       new Text('sophomore'), // Answer 2
                     ]),
@@ -88,7 +176,7 @@ class _HomeState extends State<Home> {
                           groupValue: answer[0],
                           onChanged: (val) {
                             setSelctedRadio(0, val);
-                            print("Q1 $answer");
+
                           }),
                       new Text('junior'), // Answer 3
                     ]),
@@ -100,7 +188,7 @@ class _HomeState extends State<Home> {
                           groupValue: answer[0],
                           onChanged: (val) {
                             setSelctedRadio(0, val);
-                            print("Q1 $answer");
+
                           }),
                       new Text('senior'), // Answer 4
                     ]),
@@ -112,11 +200,10 @@ class _HomeState extends State<Home> {
                           groupValue: answer[0],
                           onChanged: (val) {
                             setSelctedRadio(0, val);
-                            print("Q1 $answer");
+
                           }),
                       new Text('graduate'), // Answer 5
                     ]),
-
                 new Text(' '),
                 // Question 2
                 new Text('Question 2:', textAlign: TextAlign.start,
@@ -131,7 +218,7 @@ class _HomeState extends State<Home> {
                           groupValue: answer[1],
                           onChanged: (val) {
                             setSelctedRadio(1, val);
-                            print("Q2 $answer");
+
                           }),
                       new Text('on'),
                     ]),
@@ -143,11 +230,10 @@ class _HomeState extends State<Home> {
                           groupValue: answer[1],
                           onChanged: (val) {
                             setSelctedRadio(1, val);
-                            print("Q2 $answer");
+
                           }),
                       new Text('off'),
                     ]),
-
                 new Text(' '),
                 // Question 3
                 new Text('Question 3:', textAlign: TextAlign.start,
@@ -162,7 +248,7 @@ class _HomeState extends State<Home> {
                           groupValue: answer[2],
                           onChanged: (val) {
                             setSelctedRadio(2, val);
-                            print("Q3 $answer");
+
                           }),
                       new Text('texting'),
                     ]),
@@ -174,7 +260,7 @@ class _HomeState extends State<Home> {
                           groupValue: answer[2],
                           onChanged: (val) {
                             setSelctedRadio(2, val);
-                            print("Q3 $answer");
+
                           }),
                       new Text('calling'),
                     ]),
@@ -186,7 +272,7 @@ class _HomeState extends State<Home> {
                           groupValue: answer[2],
                           onChanged: (val) {
                             setSelctedRadio(2, val);
-                            print("Q3 $answer");
+
                           }),
                       new Text('social media'),
                     ]),
@@ -198,11 +284,10 @@ class _HomeState extends State<Home> {
                           groupValue: answer[2],
                           onChanged: (val) {
                             setSelctedRadio(2, val);
-                            print("Q3 $answer");
+
                           }),
                       new Text('email'),
                     ]),
-
                 new Text(' '),
                 // Question 4
                 new Text('Question 4:', textAlign: TextAlign.start,
@@ -217,7 +302,7 @@ class _HomeState extends State<Home> {
                           groupValue: answer[3],
                           onChanged: (val) {
                             setSelctedRadio(3, val);
-                            print("Q4 $answer");
+
                           }),
                       new Text('introvert'),
                     ]),
@@ -229,7 +314,7 @@ class _HomeState extends State<Home> {
                           groupValue: answer[3],
                           onChanged: (val) {
                             setSelctedRadio(3, val);
-                            print("Q4 $answer");
+
                           }),
                       new Text('ambivert'),
                     ]),
@@ -241,11 +326,10 @@ class _HomeState extends State<Home> {
                           groupValue: answer[3],
                           onChanged: (val) {
                             setSelctedRadio(3, val);
-                            print("Q4 $answer");
+
                           }),
                       new Text('extrovert'),
                     ]),
-
                 new Text(' '),
                 // Question 5
                 new Text('Question 5:', textAlign: TextAlign.start,
@@ -260,7 +344,7 @@ class _HomeState extends State<Home> {
                           groupValue: answer[4],
                           onChanged: (val) {
                             setSelctedRadio(4, val);
-                            print("Q4 $answer");
+
                           }),
                       new Text('clean'),
                     ]),
@@ -272,7 +356,7 @@ class _HomeState extends State<Home> {
                           groupValue: answer[4],
                           onChanged: (val) {
                             setSelctedRadio(4, val);
-                            print("Q4 $answer");
+
                           }),
                       new Text('messy'),
                     ]),
@@ -284,11 +368,10 @@ class _HomeState extends State<Home> {
                           groupValue: answer[4],
                           onChanged: (val) {
                             setSelctedRadio(4, val);
-                            print("Q4 $answer");
+
                           }),
                       new Text('in between'),
                     ]),
-
                 new Text(' '),
                 // Question 6
                 new Text('Question 6: ', textAlign: TextAlign.start,
@@ -303,7 +386,7 @@ class _HomeState extends State<Home> {
                           groupValue: answer[5],
                           onChanged: (val) {
                             setSelctedRadio(5, val);
-                            print("Q5 $answer");
+
                           }),
                       new Text('once a day'),
                     ]),
@@ -315,7 +398,7 @@ class _HomeState extends State<Home> {
                           groupValue: answer[5],
                           onChanged: (val) {
                             setSelctedRadio(5, val);
-                            print("Q5 $answer");
+
                           }),
                       new Text('once a week'),
                     ]),
@@ -327,7 +410,7 @@ class _HomeState extends State<Home> {
                           groupValue: answer[5],
                           onChanged: (val) {
                             setSelctedRadio(5, val);
-                            print("Q5 $answer");
+
                           }),
                       new Text('once a month'),
                     ]),
@@ -339,11 +422,10 @@ class _HomeState extends State<Home> {
                           groupValue: answer[5],
                           onChanged: (val) {
                             setSelctedRadio(5, val);
-                            print("Q5 $answer");
+
                           }),
                       new Text('as needed'),
                     ]),
-
                 new Text(' '),
                 // Question 7
                 new Text('Question 7:', textAlign: TextAlign.start,
@@ -358,7 +440,7 @@ class _HomeState extends State<Home> {
                           groupValue: answer[6],
                           onChanged: (val) {
                             setSelctedRadio(6, val);
-                            print("Q6 $answer");
+
                           }),
                       new Text('morning (8am-noon)'),
                     ]),
@@ -370,7 +452,7 @@ class _HomeState extends State<Home> {
                           groupValue: answer[6],
                           onChanged: (val) {
                             setSelctedRadio(6, val);
-                            print("Q6 $answer");
+
                           }),
                       new Text('afternoon (noon-5pm)'),
                     ]),
@@ -382,7 +464,7 @@ class _HomeState extends State<Home> {
                           groupValue: answer[6],
                           onChanged: (val) {
                             setSelctedRadio(6, val);
-                            print("Q6 $answer");
+
                           }),
                       new Text('evening (5pm-10pm)'),
                     ]),
@@ -394,11 +476,10 @@ class _HomeState extends State<Home> {
                           groupValue: answer[6],
                           onChanged: (val) {
                             setSelctedRadio(6, val);
-                            print("Q6 $answer");
+
                           }),
                       new Text('late evening (after 10pm)'),
                     ]),
-
                 new Text(' '),
                 // Question 8
                 new Text('Question 8:', textAlign: TextAlign.start,
@@ -413,7 +494,7 @@ class _HomeState extends State<Home> {
                           groupValue: answer[7],
                           onChanged: (val) {
                             setSelctedRadio(7, val);
-                            print("Q8 $answer");
+
                           }),
                       new Text('9pm-11pm'),
                     ]),
@@ -425,7 +506,7 @@ class _HomeState extends State<Home> {
                           groupValue: answer[7],
                           onChanged: (val) {
                             setSelctedRadio(7, val);
-                            print("Q8 $answer");
+
                           }),
                       new Text('11pm-1am'),
                     ]),
@@ -437,11 +518,10 @@ class _HomeState extends State<Home> {
                           groupValue: answer[7],
                           onChanged: (val) {
                             setSelctedRadio(7, val);
-                            print("Q8 $answer");
+
                           }),
                       new Text('after 1am'),
                     ]),
-
                 new Text(' '),
                 // Question 9
                 new Text('Question 9:', textAlign: TextAlign.start,
@@ -456,7 +536,7 @@ class _HomeState extends State<Home> {
                           groupValue: answer[8],
                           onChanged: (val) {
                             setSelctedRadio(8, val);
-                            print("Q9 $answer");
+
                           }),
                       new Text('9pm-11pm'),
                     ]),
@@ -468,7 +548,7 @@ class _HomeState extends State<Home> {
                           groupValue: answer[8],
                           onChanged: (val) {
                             setSelctedRadio(8, val);
-                            print("Q9 $answer");
+
                           }),
                       new Text('11pm-1am'),
                     ]),
@@ -480,11 +560,10 @@ class _HomeState extends State<Home> {
                           groupValue: answer[8],
                           onChanged: (val) {
                             setSelctedRadio(8, val);
-                            print("Q9 $answer");
+
                           }),
                       new Text('after 1am'),
                     ]),
-
                 new Text(' '),
                 // Question 10
                 new Text('Question 10:', textAlign: TextAlign.start,
@@ -499,7 +578,7 @@ class _HomeState extends State<Home> {
                           groupValue: answer[9],
                           onChanged: (val) {
                             setSelctedRadio(9, val);
-                            print("Q10 $answer");
+
                           }),
                       new Text('staying in to read or watch TV'),
                     ]),
@@ -511,7 +590,7 @@ class _HomeState extends State<Home> {
                           groupValue: answer[9],
                           onChanged: (val) {
                             setSelctedRadio(9, val);
-                            print("Q10 $answer");
+
                           }),
                       new Text('Hanging out with friends'),
                     ]),
@@ -523,11 +602,37 @@ class _HomeState extends State<Home> {
                           groupValue: answer[9],
                           onChanged: (val) {
                             setSelctedRadio(9, val);
-                            print("Q10 $answer");
+
                           }),
                       new Text('Going out and exploring '),
                     ]),
+                new Row(
+                    children: <Widget>[
+
+                      RaisedButton(
+                          // Build the JSON
+                          onPressed: clickable,
+                          child: Text('Submit')
+                      )
+
+                    ]
+                )
               ]),
         ));
+
+
   }
+
+  // Post a new user to the AWS Server
+  Future<http.Response>  createUser() async {
+    print(getUserAnswer());
+    return http.post(
+        BASE_URL + '/product',
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: getUserAnswer()
+    );
+  }
+
 }
