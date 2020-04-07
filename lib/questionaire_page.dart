@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import'package:ruroomates/Chat.dart';
@@ -8,8 +9,8 @@ import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import 'package:http/http.dart' as http;
+
 
 class QuestionnairePage extends StatelessWidget {
   // This widget is the root of your application.
@@ -28,6 +29,7 @@ class QuestionnairePage extends StatelessWidget {
     );
   }
 }
+
 
 class Home extends StatefulWidget {
   String peerID;

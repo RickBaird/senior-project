@@ -32,6 +32,9 @@ dependencies:
   photo_view: ^0.9.2
   flutter_local_notifications: ^1.1.6
   firebase_messaging: ^6.0.9
+  social_share_plugin: ^0.3.0+1
+  url_launcher: ^5.4.2
+  flutter_linkify: ^3.1.0
 
   flutter:
     sdk: flutter
@@ -65,6 +68,7 @@ flutter:
   assets:
   - assets/google_logo.png
   - assets/sign_out.png
+  - assets/insta_icon.png
   - assets/
 
   # An image asset can refer to one or more resolution-specific "variants", see
