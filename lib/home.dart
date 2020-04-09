@@ -12,6 +12,9 @@ import 'package:ruroomates/user.dart';
 import 'package:ruroomates/Chat.dart';
 
 import 'const.dart';
+import 'package:http/http.dart' as http;
+
+import 'searchusers.dart';
 
 
 // ignore: must_be_immutable
@@ -21,6 +24,7 @@ class HomePage extends StatelessWidget {
   String peerID;
   String currentUserId;
   bool isLoading = false;
+  String BASE_URL = "http://ec2-3-80-145-238.compute-1.amazonaws.com:5000";
 
   @override
   Widget build(BuildContext context) {
@@ -83,16 +87,19 @@ class HomePage extends StatelessWidget {
                     },
                   ),
 
+
+                  new ListTile(
+
+                    title: new Text("Search Users"),
+                    onTap: () {
+                      print(peerID);
+                      Navigator.of(context).pop();
+                      Navigator.of(context).push(new MaterialPageRoute(builder: (BuildContext context) => new SearchUsers()));
+                    },
+                  ),
+
                   new ListTile(
                     title: new Text("Messages"),
-                    trailing:
-                    CircleAvatar(
-                      backgroundImage: NetworkImage(
-                        imageUrl,
-                      ),
-                      radius: 12,
-                      backgroundColor: Colors.transparent,
-                    ),
                     onTap: () {
                       Navigator.of(context).pop();
                       Navigator.of(context).push(new MaterialPageRoute(builder: (BuildContext context) => new Messages(currentUserId: prefs.getString('id'))));
@@ -192,8 +199,6 @@ class HomePage extends StatelessWidget {
         )
     );
   }
-
-
 
   Widget buildItem(BuildContext context, DocumentSnapshot document) {
     if (document['id'] == currentUserId) {
