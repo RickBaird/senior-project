@@ -75,6 +75,7 @@ class _HomeState extends State<Home> {
     });
     checkedempty();
   }
+
   SharedPreferences pref;
   checkedempty() async {
     pref = await SharedPreferences.getInstance();
@@ -105,11 +106,20 @@ class _HomeState extends State<Home> {
           'q9': answer[8],
           'q10': answer[9],
         };
-        
+
         // Encode file to JSON
         setUserAnswer(jsonEncode(toJson()));
+
         // Send Post request to the server
-        createUser();
+        // if 200 - exists
+        if (ExistingUserCheck(peerID) == 200) {
+          createUser();
+          print("New User!");
+        }
+        // all others requests
+        updateUser(peerID);
+        print("Update Existing");
+
 
         Navigator.of(context).pop();
         Navigator.of(context).push(new MaterialPageRoute(builder: (BuildContext context) =>  FirstScreen()));
@@ -620,6 +630,17 @@ class _HomeState extends State<Home> {
               ]),
         ));
 
+  }
+
+  // Check if a user exists already or not
+  Future<int> ExistingUserCheck(String id) async {
+    final response =
+    await http.put(BASE_URL + '/product/' + id);
+
+    // if 200 - exists
+    // else - does not exist
+    print(response.statusCode);
+    return response.statusCode;
 
   }
 
@@ -628,6 +649,18 @@ class _HomeState extends State<Home> {
     print(getUserAnswer());
     return http.post(
         BASE_URL + '/product',
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: getUserAnswer()
+    );
+  }
+
+  // Update an existing user that is in the AWS Server
+  Future<http.Response>  updateUser(String id) async {
+    print(getUserAnswer());
+    return http.put(
+        BASE_URL + '/product/' + id,
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
