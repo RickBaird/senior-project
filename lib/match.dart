@@ -7,7 +7,7 @@ class Match {
 
   static List<String> matchId = new List();
   static List<dynamic> global;
-   static List<String> matchPerc = new List();
+   static List<int> matchPerc = new List();
   static List<dynamic> global2;
   static dynamic matches;
   static dynamic matchesP;
@@ -36,8 +36,8 @@ class Match {
       return matchId;
                    
   }
-  static List<String> update2(dynamic d) {
-    print("update");
+  static List<int> update2(dynamic d) {
+    print("update perc");
     matchPerc.clear();
     matches = d.then((matchesP2) {
                   // print(matches[0]);
@@ -46,13 +46,15 @@ class Match {
                 // print(global);
     for(int i = 0; i < global2.length; i++) {
      // print(matchPerc);
-      //print("++++++++++++++++++++++");       
-      matchPerc.insert(i,global2[i]["id"]);
+      //print("++++++++++++++++++++++"); 
+      //print(global2[i]['perc']);      
+      matchPerc.insert(i,global2[i]["perc"]);
       //matchPerc.add(global[i]['perc']);
       //print(matchId);
       //print(matchPerc);
       }
       //print(matchPerc);
+      print("done");
       return matchPerc;
                    
   }

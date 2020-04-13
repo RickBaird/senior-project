@@ -32,8 +32,8 @@ class HomePage extends StatelessWidget {
   List<int> matchPerc = new List();
   dynamic dat;
   dynamic con;
-  dynamic matches2;
-  dynamic perc;
+  List<String> matches2;
+  List<int> perc;
 
   HomePage(this.matches2, this.perc);
 
@@ -220,7 +220,9 @@ class HomePage extends StatelessWidget {
       }
     else {
       //print(document['id']);
-      String index = (matches2.indexOf(document['id']) *10).toString();
+      int index = matches2.indexOf(document['id']);
+      int sim = perc[index] * 10;
+      String simi = sim.toString();
       return Container(
         child: FlatButton(
           child: Row(
@@ -313,7 +315,7 @@ class HomePage extends StatelessWidget {
                     children: <Widget>[
                       Flexible(
                         child: Text(
-                          index + "%",
+                          simi.toString() + "%",
                           style: TextStyle(
                             fontSize: 18.0,
                           ),

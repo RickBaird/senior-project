@@ -109,7 +109,7 @@ class MainScreenState extends State<Messages> {
   Future<bool> onBackPress() {
     dynamic matches = Match.getMatch();
     List<String> matches2 = Match.update(matches);
-    List<String> perc = Match.update2(matches);
+    List<int> perc = Match.update2(matches);
     Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage(matches2,perc)));
     
     return Future.value(false);

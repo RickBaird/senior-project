@@ -45,7 +45,7 @@ class _LoginPageState extends State<LoginPage> {
             try {
             dynamic matches = Match.getMatch();
             List<String> matches2 = Match.update(matches);
-            List<String> perc = Match.update2(matches); 
+            List<int> perc = Match.update2(matches); 
             // return HomePage(matches2, perc);
             return FirstScreen();
             } catch (Exception) {
