@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:ruroomates/home.dart';
+import 'package:ruroomates/questionaire_page.dart';
 import 'package:ruroomates/sign_in.dart';
 import 'package:ruroomates/first_screen.dart';
+import 'match.dart';
+import 'const.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -32,12 +35,25 @@ class _LoginPageState extends State<LoginPage> {
     Widget _signInButton() {
     return OutlineButton(
       splashColor: Colors.grey,
+
       onPressed: () {
+      
       signInWithGoogle().whenComplete(() {
       Navigator.of(context).push(
         MaterialPageRoute(
           builder: (context) {
-            return HomePage();
+            try {
+            dynamic matches = Match.getMatch();
+            List<String> matches2 = Match.update(matches);
+            List<String> perc = Match.update2(matches); 
+            // return HomePage(matches2, perc);
+            return FirstScreen();
+            } catch (Exception) {
+              return FirstScreen();
+              
+            //return HomePage(matches2, perc);
+            }
+        
           },
         ),
       );

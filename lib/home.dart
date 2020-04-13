@@ -1,3 +1,4 @@
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -10,20 +11,34 @@ import 'package:ruroomates/login_page.dart';
 import 'package:ruroomates/messages.dart';
 import 'package:ruroomates/user.dart';
 import 'package:ruroomates/Chat.dart';
-
+import 'package:http/http.dart' as http;
+import 'dart:async';
+import 'dart:io';
 import 'const.dart';
+import 'dart:convert';
 
 
 // ignore: must_be_immutable
 class HomePage extends StatelessWidget {
+  
+
 
   DocumentSnapshot document;
   String peerID;
   String currentUserId;
   bool isLoading = false;
+  List<dynamic> global;
+  List<String> matchId = new List();
+  List<int> matchPerc = new List();
+  dynamic dat;
+  dynamic con;
+  dynamic matches2;
+  dynamic perc;
+
+  HomePage(this.matches2, this.perc);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) {                 
 
     return MaterialApp(
         title: "Home",
@@ -47,7 +62,6 @@ class HomePage extends StatelessWidget {
           drawer: new Drawer(
               child: new ListView(
                 children: <Widget>[
-
                   new UserAccountsDrawerHeader(accountName: Text(name), accountEmail: Text(email),
                     decoration: new BoxDecoration(
                         gradient: LinearGradient(
@@ -77,7 +91,6 @@ class HomePage extends StatelessWidget {
                       backgroundColor: Colors.transparent,
                     ),
                     onTap: () {
-                      print(peerID);
                       Navigator.of(context).pop();
                       Navigator.of(context).push(new MaterialPageRoute(builder: (BuildContext context) => new FirstScreen()));
                     },
@@ -153,7 +166,7 @@ class HomePage extends StatelessWidget {
             // in the middle of the parent.
             child: Stack(
               children: <Widget>[
-                // List
+                
                 Container(
                   child: StreamBuilder(
                     stream: Firestore.instance.collection('users').snapshots(),
@@ -174,7 +187,7 @@ class HomePage extends StatelessWidget {
                     },
                   ),
                 ),
-
+                SizedBox(height: 40),
                 // Loading
                 Positioned(
                   child: isLoading
@@ -193,12 +206,21 @@ class HomePage extends StatelessWidget {
     );
   }
 
+   buildItem(BuildContext context, DocumentSnapshot document) {
+    print("build");
+    //print(matches2);
 
-
-  Widget buildItem(BuildContext context, DocumentSnapshot document) {
     if (document['id'] == currentUserId) {
       return Container();
-    } else {
+    } //else if (global == null){
+      //return Container();
+     else if (!matches2.contains(document['id'])) {
+       //print(document['id']);
+        return Container();
+      }
+    else {
+      //print(document['id']);
+      String index = (matches2.indexOf(document['id']) *10).toString();
       return Container(
         child: FlatButton(
           child: Row(
@@ -291,7 +313,7 @@ class HomePage extends StatelessWidget {
                     children: <Widget>[
                       Flexible(
                         child: Text(
-                          '80%',
+                          index + "%",
                           style: TextStyle(
                             fontSize: 18.0,
                           ),
@@ -327,3 +349,4 @@ class HomePage extends StatelessWidget {
     }
   }
 }
+

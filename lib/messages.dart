@@ -11,6 +11,7 @@ import 'package:ruroomates/const.dart';
 import 'package:ruroomates/home.dart';
 import 'package:ruroomates/searchusers.dart';
 import 'package:ruroomates/sign_in.dart';
+import 'match.dart';
 import 'package:ruroomates/login_page.dart';
 import 'package:ruroomates/auth.dart';
 import 'package:ruroomates/settings.dart';
@@ -106,7 +107,11 @@ class MainScreenState extends State<Messages> {
 
   // sends the user back to the home page
   Future<bool> onBackPress() {
-    Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
+    dynamic matches = Match.getMatch();
+    List<String> matches2 = Match.update(matches);
+    List<String> perc = Match.update2(matches);
+    Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage(matches2,perc)));
+    
     return Future.value(false);
   }
 

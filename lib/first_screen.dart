@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:ruroomates/edit_profile.dart';
 import 'package:ruroomates/home.dart';
-import 'package:ruroomates/login_page.dart';
-import 'package:ruroomates/sign_in.dart';
 import 'package:ruroomates/questionaire_page.dart';
+import 'package:ruroomates/sign_in.dart';
+import 'match.dart';
+
 
 class FirstScreen extends StatelessWidget {
   @override
@@ -13,7 +14,14 @@ class FirstScreen extends StatelessWidget {
       appBar: new AppBar(title: new Text("Your Profile"),
         backgroundColor: Colors.blueAccent,
         leading: new IconButton(icon: new Icon(Icons.arrow_back), onPressed: () {
-          Navigator.push(context, MaterialPageRoute(builder: (context)=> HomePage()));
+          //try{
+          dynamic matches = Match.getMatch();
+          List<String> matches2 = Match.update(matches);
+          List<String> perc = Match.update2(matches);
+          Navigator.push(context, MaterialPageRoute(builder: (context)=> HomePage(matches2, perc)));
+         // } catch (Exception) {
+           // Navigator.push(context, MaterialPageRoute(builder: (context)=> Error()));
+        // }
         }),),
       body: Container(
         decoration: BoxDecoration(
@@ -91,6 +99,7 @@ class FirstScreen extends StatelessWidget {
                     borderRadius: BorderRadius.circular(40)),
               ),
               SizedBox(height: 40),
+              
               RaisedButton(
                 onPressed: () {
                   Navigator.of(context).push(
