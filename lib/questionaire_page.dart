@@ -87,9 +87,9 @@ class _HomeState extends State<Home> {
     }
     // if all of the questions were answered
     if (counter == 10){
-      // Submit Button was clicked at end of Questionaire 
+      // Submit Button was clicked at end of Questionaire
       clickable=(){
-        // Firebase User ID (Used as PK for AWS) 
+        // Firebase User ID (Used as PK for AWS)
         peerID = pref.getString( 'id') ?? '' ;
         Firestore.instance.collection('users').document(peerID);
 
@@ -138,11 +138,20 @@ class _HomeState extends State<Home> {
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                     colors: <Color>[
-                      Colors.brown,
-                      Colors.yellow,
+                      Colors.teal[700],
+                      Colors.teal[200],
                     ]
                 )
             ),
+          ),
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back),
+            onPressed: () {
+              Navigator.push(context,
+              MaterialPageRoute(
+                builder: (context) => FirstScreen()
+              ));
+            },
           ),
         ),
         body: SingleChildScrollView(
@@ -620,7 +629,7 @@ class _HomeState extends State<Home> {
                     children: <Widget>[
 
                       RaisedButton(
-                          // Build the JSON
+                        // Build the JSON
                           onPressed: clickable,
                           child: Text('Submit')
                       )

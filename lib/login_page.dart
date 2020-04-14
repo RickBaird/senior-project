@@ -16,7 +16,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        color: Colors.white,
+       color: Colors.white,
         child: Center(
           child: Column(
             mainAxisSize: MainAxisSize.max,
@@ -32,36 +32,36 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-    Widget _signInButton() {
+  Widget _signInButton() {
     return OutlineButton(
       splashColor: Colors.grey,
 
       onPressed: () {
-      
-      signInWithGoogle().whenComplete(() {
-      Navigator.of(context).push(
-        MaterialPageRoute(
-          builder: (context) {
-            try {
-            dynamic matches = Match.getMatch();
-            List<String> matches2 = Match.update(matches);
-            List<int> perc = Match.update2(matches); 
-            // return HomePage(matches2, perc);
-            return FirstScreen();
-            } catch (Exception) {
-              return FirstScreen();
-              
-            //return HomePage(matches2, perc);
-            }
-        
-          },
-        ),
-      );
-    });
+
+        signInWithGoogle().whenComplete(() {
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) {
+                try {
+                  dynamic matches = Match.getMatch();
+                  List<String> matches2 = Match.update(matches);
+                  List<int> perc = Match.update2(matches);
+                  // return HomePage(matches2, perc);
+                  return FirstScreen();
+                } catch (Exception) {
+                  return FirstScreen();
+
+                  //return HomePage(matches2, perc);
+                }
+
+              },
+            ),
+          );
+        });
       },
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
       highlightElevation: 0,
-      borderSide: BorderSide(color: Colors.grey),
+      borderSide: BorderSide(color: Colors.black),
       child: Padding(
         padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
         child: Row(
@@ -75,7 +75,7 @@ class _LoginPageState extends State<LoginPage> {
                 'Sign in with Google',
                 style: TextStyle(
                   fontSize: 20,
-                  color: Colors.grey,
+                  color: Colors.black,
                 ),
               ),
             )

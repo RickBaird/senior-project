@@ -22,9 +22,21 @@ class Chat extends StatelessWidget {
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: new AppBar(
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+              gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: <Color>[
+                    Colors.teal[700],
+                    Colors.teal[200],
+                  ]
+              )
+          ),
+        ),
         title: new Text(
-          'CHAT',
-          style: TextStyle(color: primaryColor, fontWeight: FontWeight.bold),
+          'Chat',
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
         ),
         centerTitle: true,
       ),

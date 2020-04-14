@@ -1,4 +1,3 @@
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -20,7 +19,7 @@ import 'dart:convert';
 
 // ignore: must_be_immutable
 class HomePage extends StatelessWidget {
-  
+
 
 
   DocumentSnapshot document;
@@ -38,9 +37,10 @@ class HomePage extends StatelessWidget {
   HomePage(this.matches2, this.perc);
 
   @override
-  Widget build(BuildContext context) {                 
+  Widget build(BuildContext context) {
 
     return MaterialApp(
+        debugShowCheckedModeBanner: false,
         title: "Home",
         home: Scaffold(
           appBar: AppBar(
@@ -132,7 +132,7 @@ class HomePage extends StatelessWidget {
               )
           ),
           body: Container(
-            color: Colors.teal[500],
+            color: Colors.white,
 //            decoration: BoxDecoration(
 //                color: greyColor,
 //                /* INSANE SHADOW */
@@ -166,7 +166,7 @@ class HomePage extends StatelessWidget {
             // in the middle of the parent.
             child: Stack(
               children: <Widget>[
-                
+
                 Container(
                   child: StreamBuilder(
                     stream: Firestore.instance.collection('users').snapshots(),
@@ -206,18 +206,18 @@ class HomePage extends StatelessWidget {
     );
   }
 
-   buildItem(BuildContext context, DocumentSnapshot document) {
+  buildItem(BuildContext context, DocumentSnapshot document) {
     print("build");
     //print(matches2);
 
     if (document['id'] == currentUserId) {
       return Container();
     } //else if (global == null){
-      //return Container();
-     else if (!matches2.contains(document['id'])) {
-       //print(document['id']);
-        return Container();
-      }
+    //return Container();
+    else if (!matches2.contains(document['id'])) {
+      //print(document['id']);
+      return Container();
+    }
     else {
       //print(document['id']);
       int index = matches2.indexOf(document['id']);
@@ -282,21 +282,21 @@ class HomePage extends StatelessWidget {
                 height: 60.0,
                 width: 60.0,
                 padding: EdgeInsets.only(left: 12.0),
-                  decoration: BoxDecoration(
+                decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     color: greyColor,
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.grey[600],
-                        offset: Offset(4.0, 4.0),
-                        blurRadius: 15.0,
-                        spreadRadius: 1.0
+                          color: Colors.grey[600],
+                          offset: Offset(4.0, 4.0),
+                          blurRadius: 15.0,
+                          spreadRadius: 1.0
                       ),
                       BoxShadow(
-                        color: Colors.white,
-                        offset: Offset(-4.0, -4.0),
-                        blurRadius: 15.0,
-                        spreadRadius: 1.0
+                          color: Colors.white,
+                          offset: Offset(-4.0, -4.0),
+                          blurRadius: 15.0,
+                          spreadRadius: 1.0
                       ),
                     ],
                     gradient: LinearGradient(
@@ -310,19 +310,19 @@ class HomePage extends StatelessWidget {
                       ],
                       stops: [0.1, 0.3, 0.8, 0.9],
                     )
-                  ),
-                  child: Row(
-                    children: <Widget>[
-                      Flexible(
-                        child: Text(
-                          simi.toString() + "%",
-                          style: TextStyle(
-                            fontSize: 18.0,
-                          ),
+                ),
+                child: Row(
+                  children: <Widget>[
+                    Flexible(
+                      child: Text(
+                        simi.toString() + "%",
+                        style: TextStyle(
+                          fontSize: 15.0,
                         ),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
+                ),
               )
             ],
           ),
@@ -351,4 +351,3 @@ class HomePage extends StatelessWidget {
     }
   }
 }
-

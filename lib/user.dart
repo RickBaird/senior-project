@@ -42,8 +42,8 @@ class UserProfile extends StatelessWidget {
         appBar: AppBar(
           centerTitle: true,
           title: Text(
-            peerName,
-            style: TextStyle(color: Colors.black),
+            "Profile",
+            style: TextStyle(color: Colors.white),
           ),
           leading: IconButton(
             icon: Icon(Icons.arrow_back),
@@ -70,8 +70,6 @@ class UserProfile extends StatelessWidget {
         body: Column(
           children: <Widget>[
           Expanded(
-            child: CustomPaint(
-              painter: TealPainter(),
               child: new OtherUserProfile(
                       peerID: peerID,
                       peerName: peerName,
@@ -84,14 +82,13 @@ class UserProfile extends StatelessWidget {
                     height: 0.0,
                   ),
             ),
-          ),
         ],
         ),
     );
   }
 }
 
-class TealPainter extends CustomPainter {
+/*class TealPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final height = size.height;
@@ -123,7 +120,7 @@ class TealPainter extends CustomPainter {
   bool shouldRepaint(CustomPainter oldDelegate) {
     return oldDelegate != this;
   }
-}
+}*/
 
 class OtherUserProfile extends StatefulWidget {
   final String title;
@@ -191,6 +188,7 @@ class _OtherUserProfileState extends State<OtherUserProfile> {
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           Container(
+            padding: EdgeInsets.fromLTRB(0.0, 15.0, 0.0, 10.0),
               child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
@@ -329,18 +327,19 @@ class _OtherUserProfileState extends State<OtherUserProfile> {
           ),
           Flexible(
             child: SizedBox(
-              height: 50.0,
+              height: 30.0,
             ),
           ),
           Expanded(
               child: Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              Row(
+              /*Row(
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
                   Expanded(
                     child: Container(
+                      padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
                       child: Text(
                         "Follow me!",
                         textAlign: TextAlign.center,
@@ -351,11 +350,12 @@ class _OtherUserProfileState extends State<OtherUserProfile> {
                     ),
                   ),
                 ],
-              ),
+              ),*/
               Row(
                 children: <Widget>[
                   SizedBox(
                     width: 10.0,
+                    height: 30.0,
                   ),
                   Flexible(
                     child: Container(

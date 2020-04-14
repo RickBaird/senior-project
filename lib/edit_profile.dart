@@ -17,9 +17,20 @@ class EditProfile extends StatelessWidget {
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: new AppBar(
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+              gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: <Color>[
+                    Colors.teal[700],
+                    Colors.teal[200],
+                  ]
+              )
+          ),
+        ),
         title: new Text(
-          'EDIT PROFILE',
-          style: TextStyle(color: primaryColor, fontWeight: FontWeight.bold),
+          'Edit Profile',
         ),
         centerTitle: true,
       ),
@@ -395,10 +406,10 @@ class SettingsScreenState extends State<SettingsScreen> {
                 child: FlatButton(
                   onPressed: handleUpdateData,
                   child: Text(
-                    'UPDATE',
+                    'Update',
                     style: TextStyle(fontSize: 16.0),
                   ),
-                  color: primaryColor,
+                  color: Colors.teal,
                   highlightColor: new Color(0xff8d93a0),
                   splashColor: Colors.transparent,
                   textColor: Colors.white,

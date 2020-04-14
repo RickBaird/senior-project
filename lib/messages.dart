@@ -111,7 +111,7 @@ class MainScreenState extends State<Messages> {
     List<String> matches2 = Match.update(matches);
     List<int> perc = Match.update2(matches);
     Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage(matches2,perc)));
-    
+
     return Future.value(false);
   }
 
@@ -119,9 +119,21 @@ class MainScreenState extends State<Messages> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+              gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: <Color>[
+                    Colors.teal[700],
+                    Colors.teal[200],
+                  ]
+              )
+          ),
+        ),
         title: Text(
-          'MESSAGES',
-          style: TextStyle(color: primaryColor, fontWeight: FontWeight.bold),
+          'Messages',
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
         ),
         centerTitle: true,
         actions: <Widget>[
@@ -156,6 +168,7 @@ class MainScreenState extends State<Messages> {
           children: <Widget>[
             // List
             Container(
+              color: Colors.white,
               child: StreamBuilder(
                 stream: Firestore.instance.collection('users').snapshots(),
                 builder: (context, snapshot) {

@@ -12,19 +12,31 @@ class FirstScreen extends StatelessWidget {
     return new Scaffold(
 
       appBar: new AppBar(title: new Text("Your Profile"),
-        backgroundColor: Colors.blueAccent,
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+              gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: <Color>[
+                    Colors.teal[700],
+                    Colors.teal[200],
+                  ]
+              )
+          ),
+        ),
         leading: new IconButton(icon: new Icon(Icons.arrow_back), onPressed: () {
           //try{
           dynamic matches = Match.getMatch();
           List<String> matches2 = Match.update(matches);
           List<int> perc = Match.update2(matches);
           Navigator.push(context, MaterialPageRoute(builder: (context)=> HomePage(matches2, perc)));
-         // } catch (Exception) {
-           // Navigator.push(context, MaterialPageRoute(builder: (context)=> Error()));
-        // }
+          // } catch (Exception) {
+          // Navigator.push(context, MaterialPageRoute(builder: (context)=> Error()));
+          // }
         }),),
       body: Container(
         decoration: BoxDecoration(
+          color: Colors.white,
           // gradient: LinearGradient(
           //   begin: Alignment.topRight,
           //   end: Alignment.bottomLeft,
@@ -48,30 +60,30 @@ class FirstScreen extends StatelessWidget {
                 'NAME',
                 style: TextStyle(
                     fontSize: 15,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black54),
+                    fontWeight: FontWeight.normal,
+                    color: Colors.black),
               ),
               Text(
                 name,
                 style: TextStyle(
                     fontSize: 25,
-                    color: Colors.black54,
-                    fontWeight: FontWeight.bold),
+                    color: Colors.black,
+                    fontWeight: FontWeight.normal),
               ),
               SizedBox(height: 20),
               Text(
                 'EMAIL',
                 style: TextStyle(
                     fontSize: 15,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black54),
+                    fontWeight: FontWeight.normal,
+                    color: Colors.black),
               ),
               Text(
                 email,
                 style: TextStyle(
                     fontSize: 25,
-                    color: Colors.black54,
-                    fontWeight: FontWeight.bold),
+                    color: Colors.black,
+                    fontWeight: FontWeight.normal),
               ),
               SizedBox(height: 40),
               RaisedButton(
@@ -86,7 +98,7 @@ class FirstScreen extends StatelessWidget {
                   );
 
                 },
-                color: Colors.blueAccent,
+                color: Colors.teal,
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
@@ -99,7 +111,7 @@ class FirstScreen extends StatelessWidget {
                     borderRadius: BorderRadius.circular(40)),
               ),
               SizedBox(height: 40),
-              
+
               RaisedButton(
                 onPressed: () {
                   Navigator.of(context).push(
@@ -110,7 +122,7 @@ class FirstScreen extends StatelessWidget {
                     ),
                   );
                 },
-                color: Colors.blueAccent,
+                color: Colors.teal,
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
