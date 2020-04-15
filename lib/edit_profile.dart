@@ -343,62 +343,62 @@ class SettingsScreenState extends State<SettingsScreen> {
                     ),
                     margin: EdgeInsets.only(left: 30.0, right: 30.0),
                   ),
+
+                  // Instagram
+                  Container(
+                    child: Text(
+                      'Instagram Username',
+                      style: TextStyle(fontStyle: FontStyle.italic, fontWeight: FontWeight.bold, color: primaryColor),
+                    ),
+                    margin: EdgeInsets.only(left: 10.0, top: 30.0, bottom: 5.0),
+                  ),
+                  Container(
+                    child: Theme(
+                      data: Theme.of(context).copyWith(primaryColor: primaryColor),
+                      child: TextField(
+                        decoration: InputDecoration(
+                          hintText: 'JohnD',
+                          contentPadding: EdgeInsets.all(5.0),
+                          hintStyle: TextStyle(color: greyColor),
+                        ),
+                        controller: controllerInstagram,
+                        onChanged: (value) {
+                          instagram = value;
+                        },
+                        focusNode: focusNodeInstagram,
+                      ),
+                    ),
+                    margin: EdgeInsets.only(left: 30.0, right: 30.0),
+                  ),
+
+                  // Twitter Account
+                  Container(
+                    child: Text(
+                      'Twitter Username',
+                      style: TextStyle(fontStyle: FontStyle.italic, fontWeight: FontWeight.bold, color: primaryColor),
+                    ),
+                    margin: EdgeInsets.only(left: 10.0, top: 30.0, bottom: 5.0),
+                  ),
+                  Container(
+                    child: Theme(
+                      data: Theme.of(context).copyWith(primaryColor: primaryColor),
+                      child: TextField(
+                        decoration: InputDecoration(
+                          hintText: 'Johnny_Doe',
+                          contentPadding: EdgeInsets.all(5.0),
+                          hintStyle: TextStyle(color: greyColor),
+                        ),
+                        controller: controllerTwitter,
+                        onChanged: (value) {
+                          twitter = value;
+                        },
+                        focusNode: focusNodeTwitter,
+                      ),
+                    ),
+                    margin: EdgeInsets.only(left: 30.0, right: 30.0),
+                  ),
                 ],
                 crossAxisAlignment: CrossAxisAlignment.start,
-              ),
-
-              // Instagram
-              Container(
-                child: Text(
-                  'Instagram Username',
-                  style: TextStyle(fontStyle: FontStyle.italic, fontWeight: FontWeight.bold, color: primaryColor),
-                ),
-                margin: EdgeInsets.only(left: 10.0, top: 30.0, bottom: 5.0),
-              ),
-              Container(
-                child: Theme(
-                  data: Theme.of(context).copyWith(primaryColor: primaryColor),
-                  child: TextField(
-                    decoration: InputDecoration(
-                      hintText: 'JohnD',
-                      contentPadding: EdgeInsets.all(5.0),
-                      hintStyle: TextStyle(color: greyColor),
-                    ),
-                    controller: controllerInstagram,
-                    onChanged: (value) {
-                      instagram = value;
-                    },
-                    focusNode: focusNodeInstagram,
-                  ),
-                ),
-                margin: EdgeInsets.only(left: 30.0, right: 30.0),
-              ),
-
-              // Twitter Account
-              Container(
-                child: Text(
-                  'Twitter Username',
-                  style: TextStyle(fontStyle: FontStyle.italic, fontWeight: FontWeight.bold, color: primaryColor),
-                ),
-                margin: EdgeInsets.only(left: 10.0, top: 30.0, bottom: 5.0),
-              ),
-              Container(
-                child: Theme(
-                  data: Theme.of(context).copyWith(primaryColor: primaryColor),
-                  child: TextField(
-                    decoration: InputDecoration(
-                      hintText: 'Johnny_Doe',
-                      contentPadding: EdgeInsets.all(5.0),
-                      hintStyle: TextStyle(color: greyColor),
-                    ),
-                    controller: controllerTwitter,
-                    onChanged: (value) {
-                      twitter = value;
-                    },
-                    focusNode: focusNodeTwitter,
-                  ),
-                ),
-                margin: EdgeInsets.only(left: 30.0, right: 30.0),
               ),
 
               // Button
