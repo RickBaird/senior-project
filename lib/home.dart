@@ -20,9 +20,8 @@ import 'dart:convert';
 // ignore: must_be_immutable
 class HomePage extends StatelessWidget {
 
-
-
   DocumentSnapshot document;
+  static DocumentSnapshot passDocument;
   String peerID;
   String currentUserId;
   bool isLoading = false;
@@ -133,41 +132,13 @@ class HomePage extends StatelessWidget {
           ),
           body: Container(
             color: Colors.white,
-//            decoration: BoxDecoration(
-//                color: greyColor,
-//                /* INSANE SHADOW */
-//                boxShadow: [
-//                  BoxShadow(
-//                      color: Colors.grey[600],
-//                      offset: Offset(4.0, 4.0),
-//                      blurRadius: 15.0,
-//                      spreadRadius: 1.0
-//                  ),
-//                  BoxShadow(
-//                      color: Colors.white,
-//                      offset: Offset(-4.0, -4.0),
-//                      blurRadius: 15.0,
-//                      spreadRadius: 1.0
-//                  ),
-//                ],
-//                gradient: LinearGradient(
-//                  begin: Alignment.topLeft,
-//                  end: Alignment.bottomRight,
-//                  colors: [
-//                    Colors.yellow[500],
-//                    Colors.brown[300],
-//                    Colors.brown[400],
-//                    Colors.brown[700],
-//                  ],
-//                  stops: [0.1, 0.3, 0.8, 0.9],
-//                )
-//            ),
             // Center is a layout widget. It takes a single child and positions it
             // in the middle of the parent.
             child: Stack(
               children: <Widget>[
 
                 Container(
+                  // StreamBuilder streams data from Firebase
                   child: StreamBuilder(
                     stream: Firestore.instance.collection('users').snapshots(),
                     builder: (context, snapshot) {
@@ -180,6 +151,7 @@ class HomePage extends StatelessWidget {
                       } else {
                         return ListView.builder(
                           padding: EdgeInsets.all(10.0),
+                          // We throw all the data into the buildItem widget
                           itemBuilder: (context, index) => buildItem(context, snapshot.data.documents[index]),
                           itemCount: snapshot.data.documents.length,
                         );
@@ -207,19 +179,15 @@ class HomePage extends StatelessWidget {
   }
 
   buildItem(BuildContext context, DocumentSnapshot document) {
+    returnDocument(document);
     print("build");
-    //print(matches2);
-
     if (document['id'] == currentUserId) {
       return Container();
-    } //else if (global == null){
-    //return Container();
+    }
     else if (!matches2.contains(document['id'])) {
-      //print(document['id']);
       return Container();
     }
     else {
-      //print(document['id']);
       int index = matches2.indexOf(document['id']);
       int sim = perc[index] * 10;
       String simi = sim.toString();
@@ -326,6 +294,8 @@ class HomePage extends StatelessWidget {
               )
             ],
           ),
+          // When a user button is pushed on, navigate to their profile page
+          // and pass data
           onPressed: () {
             Navigator.push(
                 context,
@@ -349,5 +319,9 @@ class HomePage extends StatelessWidget {
         margin: EdgeInsets.only(bottom: 10.0, left: 5.0, right: 5.0),
       );
     }
+  }
+
+  DocumentSnapshot returnDocument(DocumentSnapshot passDocument) {
+    return passDocument;
   }
 }
