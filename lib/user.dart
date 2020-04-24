@@ -38,52 +38,49 @@ class UserProfile extends StatelessWidget {
     moveLastScreen() {
       Navigator.pop(context);
     }
+
     return Scaffold(
-        appBar: AppBar(
-          centerTitle: true,
-          title: Text(
-            "Profile",
-            style: TextStyle(color: Colors.white),
-          ),
-          leading: IconButton(
-            icon: Icon(Icons.arrow_back),
-            onPressed: () {
-              moveLastScreen();
-            },
-          ),
-          flexibleSpace: Container(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: <Color>[
-                    Colors.teal[700],
-                    Colors.teal[200],
-//                    Colors.brown[400],
-//                    Colors.brown[500],
-//                    Colors.yellow[400],
-//                    Colors.yellow[500],
-                  ]),
-            ),
+      appBar: AppBar(
+        centerTitle: true,
+        title: Text(
+          "Profile",
+          style: TextStyle(color: Colors.white),
+        ),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            moveLastScreen();
+          },
+        ),
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: <Color>[
+                  Colors.teal[700],
+                  Colors.teal[200],
+                ]),
           ),
         ),
-        body: Column(
-          children: <Widget>[
+      ),
+      body: Column(
+        children: <Widget>[
           Expanded(
-              child: new OtherUserProfile(
-                      peerID: peerID,
-                      peerName: peerName,
-                      peerPic: peerPic,
-                      peerAboutMe: peerAboutMe,
-                      insta: insta,
-                      twitter: twitter) ??
-                  new Container(
-                    width: 0.0,
-                    height: 0.0,
-                  ),
-            ),
+            child: new OtherUserProfile(
+                    peerID: peerID,
+                    peerName: peerName,
+                    peerPic: peerPic,
+                    peerAboutMe: peerAboutMe,
+                    insta: insta,
+                    twitter: twitter) ??
+                new Container(
+                  width: 0.0,
+                  height: 0.0,
+                ),
+          ),
         ],
-        ),
+      ),
     );
   }
 }
@@ -94,28 +91,21 @@ class UserProfile extends StatelessWidget {
     final height = size.height;
     final width = size.width;
     Paint paint = Paint();
-
     Path mainBackground = Path();
     mainBackground.addRect(Rect.fromLTRB(0, 0, width, height));
     paint.color = Colors.teal[400];
     canvas.drawPath(mainBackground, paint);
-
     Path ovalPath = Path();
     ovalPath.moveTo(0, height * 0.2);
-
     ovalPath.quadraticBezierTo(
         width * 0.47, height * 0.26, width * 0.54, height * 0.5);
-
     ovalPath.quadraticBezierTo(
         width * 0.58, height * 0.8, width * 0.1, height);
-
     ovalPath.lineTo(0, height);
     ovalPath.close();
-
     paint.color = Colors.teal[200];
     canvas.drawPath(ovalPath, paint);
   }
-
   @override
   bool shouldRepaint(CustomPainter oldDelegate) {
     return oldDelegate != this;
@@ -183,44 +173,45 @@ class _OtherUserProfileState extends State<OtherUserProfile> {
       Navigator.pop(context);
     }
 
+    // WillPopScope to override back button on devices
     return WillPopScope(
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           Container(
-            padding: EdgeInsets.fromLTRB(0.0, 15.0, 0.0, 10.0),
+              padding: EdgeInsets.fromLTRB(0.0, 15.0, 0.0, 10.0),
               child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                GestureDetector(
-                  child: CircleAvatar(
-                    radius: 70.0,
-                    child: ClipOval(
-                      child: CachedNetworkImage(
-                        placeholder: (context, url) => Container(
-                          child: CircularProgressIndicator(
-                            strokeWidth: 1.0,
-                            valueColor:
-                                AlwaysStoppedAnimation<Color>(themeColor),
+                    GestureDetector(
+                      child: CircleAvatar(
+                        radius: 70.0,
+                        child: ClipOval(
+                          child: CachedNetworkImage(
+                            placeholder: (context, url) => Container(
+                              child: CircularProgressIndicator(
+                                strokeWidth: 1.0,
+                                valueColor:
+                                    AlwaysStoppedAnimation<Color>(themeColor),
+                              ),
+                              width: 40.0,
+                              height: 40.0,
+                              padding: EdgeInsets.all(15.0),
+                            ),
+                            imageUrl: peerPic,
+                            width: 250.0,
+                            height: 250.0,
+                            fit: BoxFit.cover,
                           ),
-                          width: 40.0,
-                          height: 40.0,
-                          padding: EdgeInsets.all(15.0),
                         ),
-                        imageUrl: peerPic,
-                        width: 250.0,
-                        height: 250.0,
-                        fit: BoxFit.cover,
                       ),
+                      onTap: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (_) {
+                          return DetailScreen(peerPic: peerPic);
+                        }));
+                      },
                     ),
-                  ),
-                  onTap: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (_) {
-                      return DetailScreen(peerPic: peerPic);
-                    }));
-                  },
-                ),
-              ])),
+                  ])),
           SizedBox(
             width: 400,
             child: Container(
@@ -334,23 +325,6 @@ class _OtherUserProfileState extends State<OtherUserProfile> {
               child: Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              /*Row(
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  Expanded(
-                    child: Container(
-                      padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
-                      child: Text(
-                        "Follow me!",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 20.0,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),*/
               Row(
                 children: <Widget>[
                   SizedBox(
@@ -421,7 +395,6 @@ class _OtherUserProfileState extends State<OtherUserProfile> {
       ),
       onWillPop: moveLastScreen,
     );
-    //}
   }
 
   Widget buildItem(BuildContext context, DocumentSnapshot document) {
@@ -434,6 +407,7 @@ class _OtherUserProfileState extends State<OtherUserProfile> {
     );
   }
 
+  // Uses stored firebase data to launch user's instagram
   Future<void> _launchInsta() async {
     var url = 'https://instagram.com/' + insta + '/';
     // Check to see if it's the default null, do nothing
@@ -448,6 +422,7 @@ class _OtherUserProfileState extends State<OtherUserProfile> {
     }
   }
 
+  // Uses stored firebase data to launch user's twitter
   Future<void> _launchTwitter() async {
     var url = 'https://twitter.com/' + twitter;
     // Check to see if it's the default null, do nothing
@@ -463,6 +438,7 @@ class _OtherUserProfileState extends State<OtherUserProfile> {
   }
 }
 
+// Class to enlarge profile picture and make it clickable to exit out
 class DetailScreen extends StatelessWidget {
   final String peerPic;
 
