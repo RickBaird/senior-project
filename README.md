@@ -12,7 +12,7 @@ Authors: Collin Stilwell, Rick Baird, Karl Cebulski, Samantha Mongiello, Erik Ew
 [Design Document](https://github.com/RickBaird/senior-project/blob/master/Senior%20Project%20Design%20Document.pdf)
 
 
-# Demonstration Presentation 
+### Demonstration Presentation 
 [Demo Video](https://drive.google.com/file/d/13mubD1SUV9Ul0aqzm-rz4AIJJ29nLCcC/view)
 
 
