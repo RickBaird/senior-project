@@ -4,7 +4,7 @@ This application gives users a more interactive and efficient way to find roomma
 
 Made using Flutter, Flask (Python), and MySQL
 
-# Authors: Collin Stilwell, Rick Baird, Karl Cebulski, Samantha Mongiello, Erik Ewell, Nicholas Fanourgakis, Zachary Ringhoff
+Authors: Collin Stilwell, Rick Baird, Karl Cebulski, Samantha Mongiello, Erik Ewell, Nicholas Fanourgakis, Zachary Ringhoff
 
 
 ### Documents
@@ -12,8 +12,8 @@ Made using Flutter, Flask (Python), and MySQL
 [Design Document](https://github.com/RickBaird/senior-project/blob/master/Senior%20Project%20Design%20Document.pdf)
 
 
-
-### [Demo Video](https://drive.google.com/file/d/13mubD1SUV9Ul0aqzm-rz4AIJJ29nLCcC/view)
+# Demonstration Presentation 
+[Demo Video](https://drive.google.com/file/d/13mubD1SUV9Ul0aqzm-rz4AIJJ29nLCcC/view)
 
 
 
